@@ -9,8 +9,13 @@ import io.vertx.ext.auth.jwt.JWTAuth
 import io.vertx.ext.auth.jwt.JWTAuthOptions
 import io.vertx.ext.web.Router
 import io.vertx.ext.web.RoutingContext
+import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.Logger
+
 
 class JWTVerticle : AbstractVerticle() {
+  private val logger: Logger = LogManager.getLogger(JWTVerticle::class.java)
+
   private lateinit var router: Router
 
   // 设置 sign algorithm 和 secret
@@ -19,6 +24,7 @@ class JWTVerticle : AbstractVerticle() {
 
   override fun start() {
     router = SingletonRouter.getInstance(vertx)
+    logger.debug("router reference: $router")
     pubSecKeyOptions = PubSecKeyOptions().setAlgorithm("HS256").setBuffer("tom123")
     jwt = JWTAuth.create(vertx, JWTAuthOptions().addPubSecKey(pubSecKeyOptions))
 

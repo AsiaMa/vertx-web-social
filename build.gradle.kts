@@ -35,6 +35,8 @@ dependencies {
   implementation("io.vertx:vertx-mysql-client")
   implementation("io.vertx:vertx-lang-kotlin")
   implementation(kotlin("stdlib-jdk8"))
+  implementation("org.apache.logging.log4j:log4j-core:2.14.1")
+  implementation("com.lmax:disruptor:3.4.4")
   testImplementation("io.vertx:vertx-junit5")
   testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiterVersion")
 }
