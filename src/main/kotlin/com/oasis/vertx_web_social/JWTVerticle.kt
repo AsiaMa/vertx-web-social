@@ -30,8 +30,11 @@ class JWTVerticle : AbstractVerticle() {
     pubSecKeyOptions = PubSecKeyOptions().setAlgorithm("HS256").setBuffer("tom123")
     jwt = JWTAuth.create(vertx, JWTAuthOptions().addPubSecKey(pubSecKeyOptions))
 
-    router.route().handler(BodyHandler.create())
-    router.post("/auth/newToken").handler(this::generateToken)
+    router.route().handler(BodyHandler.create()).failureHandler { ctx ->
+      logger.error(ctx.failure())
+      ctx.end(ctx.failure().message)
+    }
+    router.route("/auth/newToken").handler(this::generateToken)
     // protect the api
     router.route("/api/*").handler(JWTAuthHandler.create(jwt))
     // 拦截 api/* 接口，解析 token
@@ -51,7 +54,6 @@ class JWTVerticle : AbstractVerticle() {
     val jwtOptions = JWTOptions().setExpiresInMinutes(2).setPermissions(authorities)
     val token = jwt.generateToken(body, jwtOptions)
 
-    ctx.response().putHeader("context-type", "text/plain")
     ctx.response().end(token)
   }
 
