@@ -9,6 +9,8 @@ import io.vertx.ext.auth.jwt.JWTAuth
 import io.vertx.ext.auth.jwt.JWTAuthOptions
 import io.vertx.ext.web.Router
 import io.vertx.ext.web.RoutingContext
+import io.vertx.ext.web.handler.BodyHandler
+import io.vertx.ext.web.handler.JWTAuthHandler
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
@@ -28,22 +30,38 @@ class JWTVerticle : AbstractVerticle() {
     pubSecKeyOptions = PubSecKeyOptions().setAlgorithm("HS256").setBuffer("tom123")
     jwt = JWTAuth.create(vertx, JWTAuthOptions().addPubSecKey(pubSecKeyOptions))
 
-    router.get("/auth/newToken").handler(this::generateToken)
+    router.route().handler(BodyHandler.create())
+    router.post("/auth/newToken").handler(this::generateToken)
+    // protect the api
+    router.route("/api/*").handler(JWTAuthHandler.create(jwt))
+    // 拦截 api/* 接口，解析 token
+    router.route("/api/*").handler(this::parseToken)
   }
 
   private fun generateToken(ctx: RoutingContext) {
     val authorities = mutableListOf<String>()
-
-    for (authority in ctx.request().params().getAll("authority")) {
-      authorities.add(authority)
+    val authority = ctx.request().getParam("authority")
+    logger.debug("authorities: $authority")
+    for (item in authority.split(",")) {
+      authorities.add(item.trim())
     }
 
     // 生成 token
-    val body = JsonObject().put("userId", 123456).put("userName", "bob")
+    val body = JsonObject().put("userId", 123456).put("userName", "Bob")
     val jwtOptions = JWTOptions().setExpiresInMinutes(2).setPermissions(authorities)
     val token = jwt.generateToken(body, jwtOptions)
 
     ctx.response().putHeader("context-type", "text/plain")
     ctx.response().end(token)
+  }
+
+  private fun parseToken(ctx: RoutingContext) {
+    val user = ctx.user()
+    val userId = user.principal().getInteger("userId")
+    val userName = user.principal().getString("userName")
+
+    ctx.put("userId", userId)
+    ctx.put("userName", userName)
+    ctx.next()
   }
 }

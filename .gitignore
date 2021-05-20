@@ -188,3 +188,4 @@ nbdist/
 /gradlew
 /gradlew.bat
 /git-flow-plus.config
+/logs/

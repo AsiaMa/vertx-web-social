@@ -15,7 +15,7 @@ class ProductVerticle : AbstractVerticle() {
     logger.debug("router reference: $router")
     router.route("/api/product").handler { ctx ->
       ctx.response().putHeader("content-type", "application/json")
-      ctx.json("Big computer")
+      ctx.json("Big computer，userId: ${ctx.get<Int>("userId")}，userName: ${ctx.get<String>("userName")}")
     }
 
     vertx.createHttpServer().requestHandler(router).listen(8888) { ar ->

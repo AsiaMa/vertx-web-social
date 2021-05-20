@@ -22,7 +22,7 @@
       <AppenderRef ref="LogToRollingRandomAccessFile"/>
       <AppenderRef ref="LogToConsole"/>
     </AsyncLogger>
-    <AsyncLogger name="io.vertx.ext.auth" level="debug" additivity="false">
+    <AsyncLogger name="io.vertx" level="debug" additivity="false">
       <AppenderRef ref="LogToRollingRandomAccessFile"/>
       <AppenderRef ref="LogToConsole"/>
     </AsyncLogger>
