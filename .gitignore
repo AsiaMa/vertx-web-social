@@ -187,3 +187,4 @@ nbdist/
 !.vscode/extensions.json
 /gradlew
 /gradlew.bat
+/git-flow-plus.config
