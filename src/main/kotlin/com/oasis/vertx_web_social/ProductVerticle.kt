@@ -1,10 +1,14 @@
 package com.oasis.vertx_web_social
 
+import com.oasis.vertx_web_social.common.SingletonRouter
 import io.vertx.core.AbstractVerticle
 import io.vertx.ext.web.Router
 
-class ProductVerticle(private val router: Router) : AbstractVerticle() {
+class ProductVerticle : AbstractVerticle() {
+  private lateinit var router: Router
+
   override fun start() {
+    router = SingletonRouter.getInstance(vertx)
 
     router.route("/api/product").handler { ctx ->
       ctx.response().putHeader("content-type", "application/json")

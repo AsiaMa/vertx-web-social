@@ -1,5 +1,6 @@
 package com.oasis.vertx_web_social
 
+import com.oasis.vertx_web_social.common.SingletonRouter
 import io.vertx.core.AbstractVerticle
 import io.vertx.core.json.JsonObject
 import io.vertx.ext.auth.JWTOptions
@@ -9,15 +10,18 @@ import io.vertx.ext.auth.jwt.JWTAuthOptions
 import io.vertx.ext.web.Router
 import io.vertx.ext.web.RoutingContext
 
-class JWTVerticle(private val router: Router) : AbstractVerticle() {
+class JWTVerticle : AbstractVerticle() {
+  private lateinit var router: Router
 
   // 设置 sign algorithm 和 secret
-  private val pubSecKeyOptions = PubSecKeyOptions().setAlgorithm("HS256").setBuffer("tom123")
-
-  // 创建 JWT AUTH Provider
-  private val jwt = JWTAuth.create(vertx, JWTAuthOptions().addPubSecKey(pubSecKeyOptions))
+  private lateinit var pubSecKeyOptions: PubSecKeyOptions
+  private lateinit var jwt: JWTAuth
 
   override fun start() {
+    router = SingletonRouter.getInstance(vertx)
+    pubSecKeyOptions = PubSecKeyOptions().setAlgorithm("HS256").setBuffer("tom123")
+    jwt = JWTAuth.create(vertx, JWTAuthOptions().addPubSecKey(pubSecKeyOptions))
+
     router.get("/auth/newToken").handler(this::generateToken)
   }
 
