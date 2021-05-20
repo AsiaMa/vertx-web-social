@@ -17,13 +17,7 @@ class ProductVerticle : AbstractVerticle() {
     logger.debug("router reference: $router")
     router.route("/api/product").handler(this::getProduct)
 
-    vertx.createHttpServer().requestHandler(router).listen(8888) { ar ->
-      if (ar.succeeded()) {
-        println("success ${ar.result()}")
-      } else {
-        println(ar.cause())
-      }
-    }
+    startHttpServer()
   }
 
   private val adminPermission = PermissionBasedAuthorization.create("admin")
@@ -33,6 +27,16 @@ class ProductVerticle : AbstractVerticle() {
       ctx.json("Big computer，userId: ${ctx.get<Int>("userId")}，userName: ${ctx.get<String>("userName")}")
     } else {
       ctx.end("没有权限")
+    }
+  }
+
+  private fun startHttpServer() {
+    vertx.createHttpServer().requestHandler(router).listen(8888) { ar ->
+      if (ar.succeeded()) {
+        println("success ${ar.result()}")
+      } else {
+        println(ar.cause())
+      }
     }
   }
 }
