@@ -1,13 +1,12 @@
 package com.oasis.vertx_web_social
 
-import io.vertx.core.AbstractVerticle
+import io.vertx.kotlin.coroutines.CoroutineVerticle
+import io.vertx.kotlin.coroutines.await
 
-class MainVerticle : AbstractVerticle() {
+class MainVerticle : CoroutineVerticle() {
 
-  override fun start() {
-
-    vertx.deployVerticle(JWTVerticle()).compose {
-      vertx.deployVerticle(ProductVerticle())
-    }
+  override suspend fun start() {
+    vertx.deployVerticle(JWTVerticle()).await()
+    vertx.deployVerticle(ProductVerticle()).await()
   }
 }
