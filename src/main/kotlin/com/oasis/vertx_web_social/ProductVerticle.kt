@@ -21,8 +21,9 @@ class ProductVerticle : AbstractVerticle() {
   }
 
   private fun getProduct(ctx: RoutingContext) {
-    ctx.requiredRole("admin")
-    ctx.json("Big computer，userId: ${ctx.get<Int>("userId")}，userName: ${ctx.get<String>("userName")}")
+    if (ctx.requiredRole("admin")) {
+      ctx.json("Big computer，userId: ${ctx.get<Int>("userId")}，userName: ${ctx.get<String>("userName")}")
+    }
   }
 
   private fun startHttpServer() {
