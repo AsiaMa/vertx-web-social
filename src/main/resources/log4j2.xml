@@ -18,11 +18,11 @@
   </Appenders>
   <Loggers>
     <!-- asynchronous loggers -->
-    <AsyncLogger name="com.oasis" level="debug" additivity="false">
+    <AsyncLogger name="com.oasis" level="trace" additivity="false">
       <AppenderRef ref="LogToRollingRandomAccessFile"/>
       <AppenderRef ref="LogToConsole"/>
     </AsyncLogger>
-    <AsyncLogger name="io.vertx" level="debug" additivity="false">
+    <AsyncLogger name="io.vertx" level="trace" additivity="false">
       <AppenderRef ref="LogToRollingRandomAccessFile"/>
       <AppenderRef ref="LogToConsole"/>
     </AsyncLogger>
