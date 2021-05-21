@@ -34,11 +34,18 @@ class JWTVerticle : AbstractVerticle() {
       logger.error(ctx.failure())
       ctx.end(ctx.failure().message)
     }
+    // 拦截所有请求，请求头 add header application/json
+    router.route().handler(this::addHeader)
     router.route("/auth/newToken").handler(this::generateToken)
     // protect the api
     router.route("/api/*").handler(JWTAuthHandler.create(jwt))
     // 拦截 api/* 接口，解析 token
     router.route("/api/*").handler(this::parseToken)
+  }
+
+  private fun addHeader(ctx: RoutingContext) {
+    ctx.response().putHeader("context-type", "application/json")
+    ctx.next()
   }
 
   private fun generateToken(ctx: RoutingContext) {
@@ -54,7 +61,7 @@ class JWTVerticle : AbstractVerticle() {
     val jwtOptions = JWTOptions().setExpiresInMinutes(2).setPermissions(authorities)
     val token = jwt.generateToken(body, jwtOptions)
 
-    ctx.response().end(token)
+    ctx.end(token)
   }
 
   private fun parseToken(ctx: RoutingContext) {
