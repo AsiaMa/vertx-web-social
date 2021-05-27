@@ -1,5 +1,6 @@
 package com.oasis.vertx_web_social
 
+import com.oasis.social.MainVerticle
 import io.vertx.core.Vertx
 import io.vertx.junit5.VertxExtension
 import io.vertx.junit5.VertxTestContext

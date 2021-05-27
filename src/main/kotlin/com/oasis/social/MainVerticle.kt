@@ -1,4 +1,4 @@
-package com.oasis.vertx_web_social
+package com.oasis.social
 
 import io.vertx.kotlin.coroutines.CoroutineVerticle
 import io.vertx.kotlin.coroutines.await

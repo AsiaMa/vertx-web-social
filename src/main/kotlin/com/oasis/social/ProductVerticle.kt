@@ -1,7 +1,7 @@
-package com.oasis.vertx_web_social
+package com.oasis.social
 
-import com.oasis.vertx_web_social.common.SingletonRouter
-import com.oasis.vertx_web_social.util.requiredRole
+import com.oasis.social.common.SingletonRouter
+import com.oasis.social.util.requiredRole
 import io.vertx.core.AbstractVerticle
 import io.vertx.ext.web.Router
 import io.vertx.ext.web.RoutingContext

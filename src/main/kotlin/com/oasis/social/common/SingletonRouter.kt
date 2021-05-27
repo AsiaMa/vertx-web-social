@@ -1,4 +1,4 @@
-package com.oasis.vertx_web_social.common
+package com.oasis.social.common
 
 import io.vertx.core.Vertx
 import io.vertx.ext.web.Router

@@ -1,4 +1,4 @@
-package com.oasis.vertx_web_social.util
+package com.oasis.social.util
 
 import io.vertx.ext.auth.authorization.PermissionBasedAuthorization
 import io.vertx.ext.web.RoutingContext
