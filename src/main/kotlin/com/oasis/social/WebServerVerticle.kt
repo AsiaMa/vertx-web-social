@@ -1,4 +1,4 @@
-package com.oasis.social.web
+package com.oasis.social
 
 import com.oasis.social.common.GlobalRouter
 import io.vertx.kotlin.coroutines.CoroutineVerticle
@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory
 
 class WebServerVerticle : CoroutineVerticle() {
 
-  private val logger by lazy { LoggerFactory.getLogger(this::class.java) }
+  private val logger = LoggerFactory.getLogger(this::class.java)
 
   override suspend fun start() {
     // 创建httpServer

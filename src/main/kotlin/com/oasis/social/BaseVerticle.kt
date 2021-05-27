@@ -1,4 +1,4 @@
-package com.oasis.social.web
+package com.oasis.social
 
 import com.oasis.social.common.GlobalRouter
 import io.vertx.core.http.HttpMethod
@@ -17,8 +17,7 @@ class BaseVerticle : CoroutineVerticle() {
     "x-csrftoken, x-requested-with, *"
 
   override suspend fun start() {
-    // 注意!! router的handler会在WebServerVerticle的EventLoop线程执行
-    // 不要在handler里使用非线程安全内容 以下handler都是线程安全的
+
     val router = GlobalRouter.getRouter()
     // 请求日志输出handler
     router.route().handler(LoggerHandler.create(LoggerFormat.SHORT))

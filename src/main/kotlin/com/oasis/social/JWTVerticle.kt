@@ -11,12 +11,11 @@ import io.vertx.ext.web.Router
 import io.vertx.ext.web.RoutingContext
 import io.vertx.ext.web.handler.BodyHandler
 import io.vertx.ext.web.handler.JWTAuthHandler
-import org.apache.logging.log4j.LogManager
-import org.apache.logging.log4j.Logger
+import org.slf4j.LoggerFactory
 
 
 class JWTVerticle : AbstractVerticle() {
-  private val logger: Logger = LogManager.getLogger(JWTVerticle::class.java)
+  private val logger = LoggerFactory.getLogger(this::class.java)
 
   private lateinit var router: Router
 
@@ -31,7 +30,7 @@ class JWTVerticle : AbstractVerticle() {
     jwt = JWTAuth.create(vertx, JWTAuthOptions().addPubSecKey(pubSecKeyOptions))
 
     router.route().handler(BodyHandler.create()).failureHandler { ctx ->
-      logger.error(ctx.failure())
+      logger.error(ctx.failure().toString())
       ctx.end(ctx.failure().message)
     }
     // 拦截所有请求，请求头 add header application/json
