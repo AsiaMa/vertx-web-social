@@ -9,7 +9,7 @@ import io.vertx.ext.web.Router
  * 从当前线程上下文获取Vertx
  * 如果不是Vertx线程则抛出异常
  */
-fun getOrCreateVertx(): Vertx {
+fun getCurrentVertx(): Vertx {
   return if (Context.isOnVertxThread())
     Vertx.currentContext().owner()
   else
@@ -24,7 +24,7 @@ class GlobalRouter {
 
     fun getRouter(): Router =
       INSTANCE ?: synchronized(this) {
-        INSTANCE ?: buildRouter(getOrCreateVertx()).also { INSTANCE = it }
+        INSTANCE ?: buildRouter(getCurrentVertx()).also { INSTANCE = it }
       }
 
     private fun buildRouter(vertx: Vertx) =

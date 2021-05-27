@@ -7,6 +7,7 @@ import io.vertx.ext.web.Router
 import io.vertx.ext.web.RoutingContext
 import org.apache.logging.log4j.LogManager
 
+@Deprecated(message = "0.1")
 class ProductVerticle : AbstractVerticle() {
   private val logger = LogManager.getLogger(this::class.java)
   private lateinit var router: Router

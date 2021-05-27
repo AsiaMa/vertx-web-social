@@ -23,16 +23,16 @@ public class User {
     this.age = age;
   }
 
-  public User(JsonObject json) {
-    UserConverter.fromJson(json, this);
-  }
-
   public User(User other) {
     this.id = other.getId();
     this.accountName = other.getAccountName();
     this.nickName = other.getNickName();
     this.password = other.getPassword();
     this.age = other.getAge();
+  }
+
+  public User(JsonObject json) {
+    UserConverter.fromJson(json, this);
   }
 
   public JsonObject toJson() {
@@ -89,5 +89,16 @@ public class User {
   public User setAge(Integer age) {
     this.age = age;
     return this;
+  }
+
+  @Override
+  public String toString() {
+    return "User{" +
+      "id='" + id + '\'' +
+      ", accountName='" + accountName + '\'' +
+      ", nickName='" + nickName + '\'' +
+      ", password='" + password + '\'' +
+      ", age=" + age +
+      '}';
   }
 }

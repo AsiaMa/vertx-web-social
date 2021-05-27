@@ -1,7 +1,7 @@
 package com.oasis.social.service
 
 import com.oasis.social.common.GlobalRouter
-import com.oasis.social.models.User
+import com.oasis.social.models.Product
 import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
 import io.vertx.core.eventbus.MessageConsumer
@@ -14,22 +14,21 @@ import io.vertx.kotlin.coroutines.await
 import io.vertx.serviceproxy.ServiceBinder
 import org.apache.logging.log4j.LogManager
 
-class UserServiceImpl : IUserService, CoroutineVerticle() {
+class ProductServiceImpl : IProductService, CoroutineVerticle() {
   private val logger = LogManager.getLogger(this::class.java)
   private lateinit var consumer: MessageConsumer<JsonObject>
 
   override suspend fun start() {
-    val serviceBinder = ServiceBinder(vertx)
-    val userService = IUserService.create()
+    val serviceBinder = ServiceBinder(this.vertx)
+    val productService = IProductService.create()
     consumer = serviceBinder
-      .setAddress(IUserService::class.java.name)
-      .register(IUserService::class.java, userService)
-
-    val routerBuilder = RouterBuilder.create(this.vertx, "userapi.json").await()
+      .setAddress(IProductService::class.java.name)
+      .register(IProductService::class.java, productService)
+    val routerBinder = RouterBuilder.create(this.vertx, "productapi.json").await()
     // 挂载服务到 event bus
-    routerBuilder.mountServicesFromExtensions()
+    routerBinder.mountServicesFromExtensions()
     // 生成路由
-    val router = routerBuilder.createRouter()
+    val router = routerBinder.createRouter()
     // 挂载到全局路由
     GlobalRouter.getRouter().mountSubRouter("/", router)
   }
@@ -38,39 +37,39 @@ class UserServiceImpl : IUserService, CoroutineVerticle() {
     consumer.unregister().await()
   }
 
-  override fun getUserList(request: ServiceRequest, resultHandler: Handler<AsyncResult<ServiceResponse>>) {
+  override fun getProductList(request: ServiceRequest, resultHandler: Handler<AsyncResult<ServiceResponse>>) {
     TODO("Not yet implemented")
   }
 
-  override fun getUserById(
-    userId: String,
+  override fun getProductById(
+    productId: String,
     request: ServiceRequest,
     resultHandler: Handler<AsyncResult<ServiceResponse>>
   ) {
-    logger.info("userId: $userId")
+    logger.info("productId: $productId")
   }
 
-  override fun createUser(
-    body: User,
+  override fun createProduct(
+    body: Product,
     request: ServiceRequest,
     resultHandler: Handler<AsyncResult<ServiceResponse>>
   ) {
-    logger.info("user: $body")
+    logger.info("product: $body")
   }
 
-  override fun updateUser(
-    body: User,
+  override fun updateProduct(
+    body: Product,
     request: ServiceRequest,
     resultHandler: Handler<AsyncResult<ServiceResponse>>
   ) {
-    logger.info("user: $body")
+    logger.info("updateProduct()=>product:$body")
   }
 
-  override fun deleteUserById(
-    userId: String,
+  override fun deleteProductById(
+    productId: String,
     request: ServiceRequest,
     resultHandler: Handler<AsyncResult<ServiceResponse>>
   ) {
-    logger.info("userId: $userId")
+    logger.info("deleteProductById()=>productId:$productId")
   }
 }

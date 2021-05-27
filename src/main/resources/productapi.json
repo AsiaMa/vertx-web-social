@@ -5,10 +5,10 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/api/users": {
+    "/api/products": {
       "get": {
-        "operationId": "getUserList",
-        "x-vertx-event-bus": "com.oasis.social.service.IUserService",
+        "operationId": "getProductList",
+        "x-vertx-event-bus": "com.oasis.social.service.IProductService",
         "responses": {
           "200": {
             "description": "Ok",
@@ -17,7 +17,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/User"
+                    "$ref": "#/components/schemas/Product"
                   }
                 }
               }
@@ -29,14 +29,14 @@
         }
       },
       "post": {
-        "operationId": "createUser",
-        "x-vertx-event-bus": "com.oasis.social.service.IUserService",
+        "operationId": "createProduct",
+        "x-vertx-event-bus": "com.oasis.social.service.IProductService",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/User"
+                "$ref": "#/components/schemas/Product"
               }
             }
           }
@@ -51,10 +51,10 @@
         }
       }
     },
-    "/api/users/{userId}": {
+    "/api/products/{productId}": {
       "parameters": [
         {
-          "name": "userId",
+          "name": "productId",
           "in": "path",
           "required": true,
           "schema": {
@@ -63,15 +63,15 @@
         }
       ],
       "get": {
-        "operationId": "getUserById",
-        "x-vertx-event-bus": "com.oasis.social.service.IUserService",
+        "operationId": "getProductById",
+        "x-vertx-event-bus": "com.oasis.social.service.IProductService",
         "responses": {
           "200": {
             "description": "Ok",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "$ref": "#/components/schemas/Product"
                 }
               }
             }
@@ -82,14 +82,14 @@
         }
       },
       "put": {
-        "operationId": "updateUser",
-        "x-vertx-event-bus": "com.oasis.social.service.IUserService",
+        "operationId": "updateProduct",
+        "x-vertx-event-bus": "com.oasis.social.service.IProductService",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/User"
+                "$ref": "#/components/schemas/Product"
               }
             }
           }
@@ -100,7 +100,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "$ref": "#/components/schemas/Product"
                 }
               }
             }
@@ -111,8 +111,8 @@
         }
       },
       "delete": {
-        "operationId": "deleteUserById",
-        "x-vertx-event-bus": "com.oasis.social.service.IUserService",
+        "operationId": "deleteProductById",
+        "x-vertx-event-bus": "com.oasis.social.service.IProductService",
         "responses": {
           "200": {
             "description": "Ok"
@@ -126,22 +126,20 @@
   },
   "components": {
     "schemas": {
-      "User": {
+      "Product": {
         "type": "object",
         "properties": {
           "id": {
             "type": "string"
           },
-          "accountName": {
+          "name": {
             "type": "string"
           },
-          "nickName": {
-            "type": "string"
+          "price": {
+            "type": "number",
+            "format": "double"
           },
-          "password": {
-            "type": "string"
-          },
-          "age": {
+          "stock": {
             "type": "number",
             "format": "int32"
           }
@@ -149,10 +147,9 @@
         "additionalProperties": false,
         "required": [
           "id",
-          "accountName",
-          "nickName",
-          "password",
-          "age"
+          "name",
+          "price",
+          "stock"
         ]
       }
     }

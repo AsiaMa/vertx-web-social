@@ -21,9 +21,9 @@ public interface IUserService {
 
   void getUserById(String userId, ServiceRequest request, Handler<AsyncResult<ServiceResponse>> resultHandler);
 
-  void createUser(User user, ServiceRequest request, Handler<AsyncResult<ServiceResponse>> resultHandler);
+  void createUser(User body, ServiceRequest request, Handler<AsyncResult<ServiceResponse>> resultHandler);
 
-  void updateUser(User user, ServiceRequest request, Handler<AsyncResult<ServiceResponse>> resultHandler);
+  void updateUser(User body, ServiceRequest request, Handler<AsyncResult<ServiceResponse>> resultHandler);
 
   void deleteUserById(String userId, ServiceRequest request, Handler<AsyncResult<ServiceResponse>> resultHandler);
 }

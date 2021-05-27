@@ -14,6 +14,7 @@ import io.vertx.ext.web.handler.JWTAuthHandler
 import org.apache.logging.log4j.LogManager
 
 
+@Deprecated(message = "0.1")
 class JWTVerticle : AbstractVerticle() {
   private val logger = LogManager.getLogger(this::class.java)
 
