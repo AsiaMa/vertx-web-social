@@ -29,16 +29,26 @@ application {
 }
 
 dependencies {
+  implementation(kotlin("stdlib-jdk8"))
+  implementation("io.vertx:vertx-lang-kotlin")
   implementation(platform("io.vertx:vertx-stack-depchain:$vertxVersion"))
   implementation("io.vertx:vertx-lang-kotlin-coroutines")
+  // jwt
   implementation("io.vertx:vertx-auth-jwt")
+  // web
   implementation("io.vertx:vertx-web")
+  // mysql
   implementation("io.vertx:vertx-mysql-client")
-  implementation("io.vertx:vertx-lang-kotlin")
-  implementation(kotlin("stdlib-jdk8"))
+  // codegen
+  annotationProcessor("io.vertx:vertx-codegen:$vertxVersion:processor")
+  compileOnly("io.vertx:vertx-codegen")
+  // web api service
+  annotationProcessor("io.vertx:vertx-web-api-service:$vertxVersion")
+  implementation("io.vertx:vertx-web-api-service")
   // logging
   implementation("org.apache.logging.log4j:log4j-core:2.14.1")
   implementation("com.lmax:disruptor:3.4.4")
+  // test
   testImplementation("io.vertx:vertx-junit5")
   testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiterVersion")
 }
