@@ -1,55 +1,14 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Transactions API",
+    "title": "User API",
     "version": "1.0.0"
   },
   "paths": {
-    "/api/transactions": {
+    "/api/users": {
       "get": {
-        "operationId": "getTransactionsList",
-        "x-vertx-event-bus": "transactions_manager.myapp",
-        "parameters": [
-          {
-            "name": "from",
-            "in": "query",
-            "description": "Matches exactly the email from",
-            "style": "form",
-            "explode": false,
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          },
-          {
-            "name": "to",
-            "in": "query",
-            "description": "Matches exactly the email to",
-            "style": "form",
-            "explode": false,
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          },
-          {
-            "name": "message",
-            "in": "query",
-            "description": "Matches exactly or a part of message field",
-            "style": "form",
-            "explode": false,
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          }
-        ],
+        "operationId": "getUserList",
+        "x-vertx-event-bus": "com.oasis.social.service.IUserService",
         "responses": {
           "200": {
             "description": "Ok",
@@ -58,7 +17,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Transaction"
+                    "$ref": "#/components/schemas/User"
                   }
                 }
               }
@@ -70,14 +29,14 @@
         }
       },
       "post": {
-        "operationId": "createTransaction",
-        "x-vertx-event-bus": "transactions_manager.myapp",
+        "operationId": "createUser",
+        "x-vertx-event-bus": "com.oasis.social.service.IUserService",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Transaction"
+                "$ref": "#/components/schemas/User"
               }
             }
           }
@@ -92,10 +51,10 @@
         }
       }
     },
-    "/api/transactions/{transactionId}": {
+    "/api/users/{userId}": {
       "parameters": [
         {
-          "name": "transactionId",
+          "name": "userId",
           "in": "path",
           "required": true,
           "schema": {
@@ -104,15 +63,15 @@
         }
       ],
       "get": {
-        "operationId": "getTransaction",
-        "x-vertx-event-bus": "transactions_manager.myapp",
+        "operationId": "getUserById",
+        "x-vertx-event-bus": "com.oasis.social.service.IUserService",
         "responses": {
           "200": {
             "description": "Ok",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Transaction"
+                  "$ref": "#/components/schemas/User"
                 }
               }
             }
@@ -123,14 +82,14 @@
         }
       },
       "put": {
-        "operationId": "updateTransaction",
-        "x-vertx-event-bus": "transactions_manager.myapp",
+        "operationId": "updateUser",
+        "x-vertx-event-bus": "com.oasis.social.service.IUserService",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Transaction"
+                "$ref": "#/components/schemas/User"
               }
             }
           }
@@ -141,7 +100,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Transaction"
+                  "$ref": "#/components/schemas/User"
                 }
               }
             }
@@ -152,8 +111,8 @@
         }
       },
       "delete": {
-        "operationId": "deleteTransaction",
-        "x-vertx-event-bus": "transactions_manager.myapp",
+        "operationId": "deleteByUserId",
+        "x-vertx-event-bus": "com.oasis.social.service.IUserService",
         "responses": {
           "200": {
             "description": "Ok"
@@ -167,35 +126,33 @@
   },
   "components": {
     "schemas": {
-      "Transaction": {
+      "User": {
         "type": "object",
         "properties": {
           "id": {
             "type": "string"
           },
-          "message": {
+          "accountName": {
             "type": "string"
           },
-          "from": {
-            "type": "string",
-            "format": "email"
+          "nickName": {
+            "type": "string"
           },
-          "to": {
-            "type": "string",
-            "format": "email"
+          "password": {
+            "type": "string"
           },
-          "value": {
+          "age": {
             "type": "number",
-            "format": "double"
+            "format": "int32"
           }
         },
         "additionalProperties": false,
         "required": [
           "id",
-          "message",
-          "from",
-          "to",
-          "value"
+          "accountName",
+          "nickName",
+          "password",
+          "age"
         ]
       }
     }

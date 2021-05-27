@@ -6,10 +6,9 @@ import io.vertx.core.AbstractVerticle
 import io.vertx.ext.web.Router
 import io.vertx.ext.web.RoutingContext
 import org.apache.logging.log4j.LogManager
-import org.apache.logging.log4j.Logger
 
 class ProductVerticle : AbstractVerticle() {
-  private val logger: Logger = LogManager.getLogger(ProductVerticle::class.java)
+  private val logger = LogManager.getLogger(this::class.java)
   private lateinit var router: Router
 
   override fun start() {

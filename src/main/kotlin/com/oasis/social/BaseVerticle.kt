@@ -7,11 +7,11 @@ import io.vertx.ext.web.handler.CorsHandler
 import io.vertx.ext.web.handler.LoggerFormat
 import io.vertx.ext.web.handler.LoggerHandler
 import io.vertx.kotlin.coroutines.CoroutineVerticle
-import org.slf4j.LoggerFactory
+import org.apache.logging.log4j.LogManager
 
 class BaseVerticle : CoroutineVerticle() {
 
-  private val logger = LoggerFactory.getLogger(this::class.java)
+  private val logger = LogManager.getLogger(this::class.java)
 
   private val allHeader = "accept, accept-encoding, authorization, content-type, dnt, origin, user-agent, " +
     "x-csrftoken, x-requested-with, *"

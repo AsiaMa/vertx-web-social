@@ -11,11 +11,11 @@ import io.vertx.ext.web.Router
 import io.vertx.ext.web.RoutingContext
 import io.vertx.ext.web.handler.BodyHandler
 import io.vertx.ext.web.handler.JWTAuthHandler
-import org.slf4j.LoggerFactory
+import org.apache.logging.log4j.LogManager
 
 
 class JWTVerticle : AbstractVerticle() {
-  private val logger = LoggerFactory.getLogger(this::class.java)
+  private val logger = LogManager.getLogger(this::class.java)
 
   private lateinit var router: Router
 
