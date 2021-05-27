@@ -1,6 +1,6 @@
 package com.oasis.social
 
-import com.oasis.social.common.SingletonRouter
+import com.oasis.social.common.GlobalRouter
 import io.vertx.core.AbstractVerticle
 import io.vertx.core.json.JsonObject
 import io.vertx.ext.auth.JWTOptions
@@ -25,7 +25,7 @@ class JWTVerticle : AbstractVerticle() {
   private lateinit var jwt: JWTAuth
 
   override fun start() {
-    router = SingletonRouter.getInstance(vertx)
+    router = GlobalRouter.getRouter()
     logger.debug("router reference: $router")
     pubSecKeyOptions = PubSecKeyOptions().setAlgorithm("HS256").setBuffer("tom123")
     jwt = JWTAuth.create(vertx, JWTAuthOptions().addPubSecKey(pubSecKeyOptions))

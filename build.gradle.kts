@@ -48,6 +48,8 @@ dependencies {
   // logging
   implementation("org.apache.logging.log4j:log4j-core:2.14.1")
   implementation("com.lmax:disruptor:3.4.4")
+  implementation("org.apache.logging.log4j:log4j-to-slf4j:2.14.1")
+  implementation("org.slf4j:slf4j-api:1.7.30")
   // test
   testImplementation("io.vertx:vertx-junit5")
   testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiterVersion")

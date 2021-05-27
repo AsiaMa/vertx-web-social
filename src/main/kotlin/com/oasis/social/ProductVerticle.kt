@@ -1,6 +1,6 @@
 package com.oasis.social
 
-import com.oasis.social.common.SingletonRouter
+import com.oasis.social.common.GlobalRouter
 import com.oasis.social.util.requiredRole
 import io.vertx.core.AbstractVerticle
 import io.vertx.ext.web.Router
@@ -13,7 +13,7 @@ class ProductVerticle : AbstractVerticle() {
   private lateinit var router: Router
 
   override fun start() {
-    router = SingletonRouter.getInstance(vertx)
+    router = GlobalRouter.getRouter()
     logger.debug("router reference: $router")
     router.route("/api/product").handler(this::getProduct)
 
