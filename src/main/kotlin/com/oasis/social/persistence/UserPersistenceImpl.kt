@@ -8,6 +8,7 @@ import io.vertx.core.json.JsonObject
 import io.vertx.sqlclient.Pool
 import io.vertx.sqlclient.PoolOptions
 import io.vertx.sqlclient.Row
+import io.vertx.sqlclient.RowSet
 import io.vertx.sqlclient.templates.SqlTemplate
 import org.apache.logging.log4j.LogManager
 import java.util.*
@@ -35,7 +36,7 @@ class UserPersistenceImpl : IUserPersistence {
       .map { it.toList() }
   }
 
-  override fun findUserById(userId: String): Future<User> {
+  override fun findUserById(userId: String): Future<User?> {
     val parameters: Map<String, Any> = Collections.singletonMap("user_number", userId)
     return SqlTemplate.forQuery(pool, "SELECT * FROM user WHERE user_number=#{user_number}")
       .mapTo(userMapper)
@@ -43,8 +44,14 @@ class UserPersistenceImpl : IUserPersistence {
       .map { it.toList().first() }
   }
 
-  override fun addUser(user: User) {
-    TODO("Not yet implemented")
+  override fun addUser(user: User):
+    Future<RowSet<Row>> {
+    return SqlTemplate.forQuery(
+      pool,
+      "INSERT INTO user VALUES(null, #{id}, #{accountName}, #{nickName}, #{password}, #{age})"
+    )
+      .mapFrom(User::class.java)
+      .execute(user)
   }
 
   override fun updateUser(user: User) {

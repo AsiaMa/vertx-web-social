@@ -83,7 +83,18 @@ class UserServiceImpl() : IUserService, CoroutineVerticle() {
     request: ServiceRequest,
     resultHandler: Handler<AsyncResult<ServiceResponse>>
   ) {
-    logger.info("user: $body")
+    logger.debug("createUser => body: $body")
+    userPersistence!!.addUser(body).onSuccess {
+      resultHandler.handle(
+        Future.succeededFuture(
+          ServiceResponse.completedWithJson(
+            JsonObject().put("code", 200).put("msg", "success")
+          )
+        )
+      )
+    }.onFailure {
+      logger.error("createUser => create user failed, error message: ${it.message}")
+    }
   }
 
   override fun updateUser(
