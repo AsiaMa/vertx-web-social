@@ -37,6 +37,15 @@ class GlobalRouter {
   }
 }
 
+fun getMySqlConnections(): MySQLConnectOptions {
+  return MySQLConnectOptions()
+    .setPort(3306)
+    .setHost("localhost")
+    .setDatabase("web_social")
+    .setUser("root")
+    .setPassword("123456")
+}
+
 class GlobalMySqlClient {
   companion object {
     @Volatile

@@ -3,16 +3,16 @@ package com.oasis.social.persistence.impl
 import com.oasis.social.models.User
 import com.oasis.social.persistence.IUserPersistence
 import com.oasis.social.util.getCurrentVertx
+import com.oasis.social.util.getMySqlConnections
 import io.vertx.core.Future
 import io.vertx.core.json.JsonObject
-import io.vertx.mysqlclient.MySQLConnectOptions
 import io.vertx.sqlclient.Pool
 import io.vertx.sqlclient.PoolOptions
 import io.vertx.sqlclient.Row
 import io.vertx.sqlclient.templates.SqlTemplate
 
 class UserPersistenceImpl : IUserPersistence {
-//  private val client = GlobalMySqlClient.getClient()
+  private val pool: Pool = Pool.pool(getCurrentVertx(), getMySqlConnections(), PoolOptions().setMaxSize(4))
 
   private val userMapper = { row: Row ->
     val json = JsonObject()
@@ -26,13 +26,6 @@ class UserPersistenceImpl : IUserPersistence {
   }
 
   override fun findUsers(): Future<Collection<User>> {
-    val connectOptions = MySQLConnectOptions()
-      .setPort(3306)
-      .setHost("localhost")
-      .setDatabase("web_social")
-      .setUser("root")
-      .setPassword("123456")
-    val pool = Pool.pool(getCurrentVertx(), connectOptions, PoolOptions().setMaxSize(4))
     return SqlTemplate.forQuery(pool, "SELECT *  FROM user")
       .mapTo(userMapper).execute(null).map { it.toList() }
   }
