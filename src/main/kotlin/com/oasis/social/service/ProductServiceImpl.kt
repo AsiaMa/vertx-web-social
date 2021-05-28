@@ -1,7 +1,7 @@
 package com.oasis.social.service
 
-import com.oasis.social.common.GlobalRouter
 import com.oasis.social.models.Product
+import com.oasis.social.util.GlobalRouter
 import io.vertx.core.AsyncResult
 import io.vertx.core.Handler
 import io.vertx.core.eventbus.MessageConsumer

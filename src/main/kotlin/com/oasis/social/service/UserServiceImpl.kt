@@ -1,10 +1,13 @@
 package com.oasis.social.service
 
-import com.oasis.social.common.GlobalRouter
 import com.oasis.social.models.User
+import com.oasis.social.persistence.IUserPersistence
+import com.oasis.social.util.GlobalRouter
 import io.vertx.core.AsyncResult
+import io.vertx.core.Future
 import io.vertx.core.Handler
 import io.vertx.core.eventbus.MessageConsumer
+import io.vertx.core.json.JsonArray
 import io.vertx.core.json.JsonObject
 import io.vertx.ext.web.api.service.ServiceRequest
 import io.vertx.ext.web.api.service.ServiceResponse
@@ -14,13 +17,21 @@ import io.vertx.kotlin.coroutines.await
 import io.vertx.serviceproxy.ServiceBinder
 import org.apache.logging.log4j.LogManager
 
-class UserServiceImpl : IUserService, CoroutineVerticle() {
+class UserServiceImpl() : IUserService, CoroutineVerticle() {
   private val logger = LogManager.getLogger(this::class.java)
   private lateinit var consumer: MessageConsumer<JsonObject>
 
+  private var userPersistence: IUserPersistence? = null
+
+  constructor(userPersistence: IUserPersistence) : this() {
+    this.userPersistence = userPersistence
+  }
+
   override suspend fun start() {
+    val userPersistence = IUserPersistence.create()
+    val userService = IUserService.create(userPersistence)
+
     val serviceBinder = ServiceBinder(vertx)
-    val userService = IUserService.create()
     consumer = serviceBinder
       .setAddress(IUserService::class.java.name)
       .register(IUserService::class.java, userService)
@@ -39,7 +50,15 @@ class UserServiceImpl : IUserService, CoroutineVerticle() {
   }
 
   override fun getUserList(request: ServiceRequest, resultHandler: Handler<AsyncResult<ServiceResponse>>) {
-    TODO("Not yet implemented")
+    logger.debug("getUserList => $request")
+    userPersistence!!.findUsers().onComplete { ar ->
+      if (ar.cause() != null) {
+        logger.error("getUserList => ${ar.cause()}")
+      }
+      resultHandler.handle(Future.succeededFuture(ServiceResponse.completedWithJson(JsonArray(ar.result().toList()))))
+    }.onFailure {
+      logger.error("getUserList => ${it.printStackTrace()}")
+    }
   }
 
   override fun getUserById(

@@ -39,6 +39,8 @@ dependencies {
   implementation("io.vertx:vertx-web")
   // mysql
   implementation("io.vertx:vertx-mysql-client")
+  // sql template
+  implementation("io.vertx:vertx-sql-client-templates")
   // codegen
   annotationProcessor("io.vertx:vertx-codegen:$vertxVersion:processor")
   compileOnly("io.vertx:vertx-codegen")
@@ -47,6 +49,8 @@ dependencies {
   implementation("io.vertx:vertx-web-api-service")
   // open api
   implementation("io.vertx:vertx-web-openapi:4.0.3")
+  // gson
+  implementation("com.google.code.gson:gson:2.8.7")
   // logging
   implementation("org.apache.logging.log4j:log4j-core:2.14.1")
   implementation("com.lmax:disruptor:3.4.4")

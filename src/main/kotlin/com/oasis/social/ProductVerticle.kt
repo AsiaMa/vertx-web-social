@@ -1,6 +1,6 @@
 package com.oasis.social
 
-import com.oasis.social.common.GlobalRouter
+import com.oasis.social.util.GlobalRouter
 import com.oasis.social.util.requiredRole
 import io.vertx.core.AbstractVerticle
 import io.vertx.ext.web.Router

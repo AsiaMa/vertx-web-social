@@ -1,6 +1,6 @@
 package com.oasis.social
 
-import com.oasis.social.common.GlobalRouter
+import com.oasis.social.util.GlobalRouter
 import io.vertx.kotlin.coroutines.CoroutineVerticle
 import io.vertx.kotlin.coroutines.await
 import org.apache.logging.log4j.LogManager

@@ -1,6 +1,6 @@
 package com.oasis.social
 
-import com.oasis.social.common.GlobalRouter
+import com.oasis.social.util.GlobalRouter
 import io.vertx.core.AbstractVerticle
 import io.vertx.core.json.JsonObject
 import io.vertx.ext.auth.JWTOptions

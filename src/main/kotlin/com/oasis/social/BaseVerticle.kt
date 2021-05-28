@@ -1,6 +1,6 @@
 package com.oasis.social
 
-import com.oasis.social.common.GlobalRouter
+import com.oasis.social.util.GlobalRouter
 import io.vertx.core.http.HttpMethod
 import io.vertx.ext.web.handler.BodyHandler
 import io.vertx.ext.web.handler.CorsHandler
@@ -34,7 +34,6 @@ class BaseVerticle : CoroutineVerticle() {
     // 全局错误处理 不用把错误信息暴露给用户端
     router.errorHandler(500) {
       logger.error("An exception occurred on the server", it.failure())
-      it.fail(500)
       it.end("An exception occurred on the server")
     }
     logger.info("BaseVerticle deployment completed!")

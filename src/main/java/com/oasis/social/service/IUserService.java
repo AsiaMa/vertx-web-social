@@ -1,6 +1,7 @@
 package com.oasis.social.service;
 
 import com.oasis.social.models.User;
+import com.oasis.social.persistence.IUserPersistence;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.ext.web.api.service.ServiceRequest;
@@ -13,8 +14,8 @@ import io.vertx.ext.web.api.service.WebApiServiceGen;
 @WebApiServiceGen
 public interface IUserService {
 
-  static IUserService create() {
-    return new UserServiceImpl();
+  static IUserService create(IUserPersistence userPersistence) {
+    return new UserServiceImpl(userPersistence);
   }
 
   void getUserList(ServiceRequest request, Handler<AsyncResult<ServiceResponse>> resultHandler);
