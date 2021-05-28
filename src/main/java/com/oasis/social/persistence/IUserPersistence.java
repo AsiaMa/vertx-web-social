@@ -4,7 +4,6 @@ import com.oasis.social.models.User;
 import io.vertx.core.Future;
 
 import java.util.Collection;
-import java.util.Optional;
 
 public interface IUserPersistence {
 
@@ -14,7 +13,7 @@ public interface IUserPersistence {
 
   Future<Collection<User>> findUsers();
 
-  Optional<User> findUserById(String userId);
+  Future<User> findUserById(String userId);
 
   void addUser(User user);
 

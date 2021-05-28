@@ -31,13 +31,16 @@ class UserPersistenceImpl : IUserPersistence {
     return SqlTemplate.forQuery(pool, "SELECT *  FROM user")
 //      .mapTo(UserRowMapper.INSTANCE)
       .mapTo(userMapper)
-      .execute(null).map {
-        it.toList()
-      }
+      .execute(null)
+      .map { it.toList() }
   }
 
-  override fun findUserById(userId: String?): Optional<User> {
-    TODO("Not yet implemented")
+  override fun findUserById(userId: String): Future<User> {
+    val parameters: Map<String, Any> = Collections.singletonMap("user_number", userId)
+    return SqlTemplate.forQuery(pool, "SELECT * FROM user WHERE user_number=#{user_number}")
+      .mapTo(userMapper)
+      .execute(parameters)
+      .map { it.toList().first() }
   }
 
   override fun addUser(user: User) {

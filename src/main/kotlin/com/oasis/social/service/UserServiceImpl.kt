@@ -50,7 +50,6 @@ class UserServiceImpl() : IUserService, CoroutineVerticle() {
   }
 
   override fun getUserList(request: ServiceRequest, resultHandler: Handler<AsyncResult<ServiceResponse>>) {
-    logger.debug("getUserList => $request")
     userPersistence!!.findUsers().onComplete { ar ->
       if (ar.cause() != null) {
         logger.error("getUserList => ${ar.cause()}")
@@ -66,7 +65,17 @@ class UserServiceImpl() : IUserService, CoroutineVerticle() {
     request: ServiceRequest,
     resultHandler: Handler<AsyncResult<ServiceResponse>>
   ) {
-    logger.info("userId: $userId")
+    logger.debug("getUserById => userId: $userId")
+    userPersistence!!.findUserById(userId).onComplete { ar ->
+      if (ar.cause() != null) {
+        logger.error("getUserList => ${ar.cause()}")
+      }
+      if (ar.result() == null) {
+        resultHandler.handle(Future.succeededFuture(ServiceResponse.completedWithJson(JsonObject())))
+      } else {
+        resultHandler.handle(Future.succeededFuture(ServiceResponse.completedWithJson(ar.result().toJson())))
+      }
+    }
   }
 
   override fun createUser(
