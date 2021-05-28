@@ -50,11 +50,8 @@ class UserServiceImpl() : IUserService, CoroutineVerticle() {
   }
 
   override fun getUserList(request: ServiceRequest, resultHandler: Handler<AsyncResult<ServiceResponse>>) {
-    userPersistence!!.findUsers().onComplete { ar ->
-      if (ar.cause() != null) {
-        logger.error("getUserList => ${ar.cause()}")
-      }
-      resultHandler.handle(Future.succeededFuture(ServiceResponse.completedWithJson(JsonArray(ar.result().toList()))))
+    userPersistence!!.findUsers().onSuccess { userCollection ->
+      resultHandler.handle(Future.succeededFuture(ServiceResponse.completedWithJson(JsonArray(userCollection.toList()))))
     }.onFailure {
       logger.error("getUserList => ${it.printStackTrace()}")
     }
@@ -66,15 +63,14 @@ class UserServiceImpl() : IUserService, CoroutineVerticle() {
     resultHandler: Handler<AsyncResult<ServiceResponse>>
   ) {
     logger.debug("getUserById => userId: $userId")
-    userPersistence!!.findUserById(userId).onComplete { ar ->
-      if (ar.cause() != null) {
-        logger.error("getUserList => ${ar.cause()}")
-      }
-      if (ar.result() == null) {
+    userPersistence!!.findUserById(userId).onSuccess { user ->
+      if (user == null) {
         resultHandler.handle(Future.succeededFuture(ServiceResponse.completedWithJson(JsonObject())))
       } else {
-        resultHandler.handle(Future.succeededFuture(ServiceResponse.completedWithJson(ar.result().toJson())))
+        resultHandler.handle(Future.succeededFuture(ServiceResponse.completedWithJson(user.toJson())))
       }
+    }.onFailure {
+      logger.error("createUser => create user failed, error message: ${it.message}")
     }
   }
 
@@ -110,6 +106,17 @@ class UserServiceImpl() : IUserService, CoroutineVerticle() {
     request: ServiceRequest,
     resultHandler: Handler<AsyncResult<ServiceResponse>>
   ) {
-    logger.info("userId: $userId")
+    logger.debug("deleteUserById => userId: $userId")
+    userPersistence!!.deleteUserById(userId).onSuccess {
+      resultHandler.handle(
+        Future.succeededFuture(
+          ServiceResponse.completedWithJson(
+            JsonObject().put("code", 200).put("msg", "success")
+          )
+        )
+      )
+    }.onFailure {
+      logger.error("createUser => create user failed, error message: ${it.message}")
+    }
   }
 }
