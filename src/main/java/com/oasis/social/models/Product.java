@@ -6,12 +6,12 @@ import io.vertx.core.json.JsonObject;
 
 @DataObject(generateConverter = true, publicConverter = false)
 public class Product {
-  private String id;
+  private Integer id;
   private String name;
   private Double price;
   private Integer stock;
 
-  public Product(String id, String name, Double price, Integer stock) {
+  public Product(Integer id, String name, Double price, Integer stock) {
     this.id = id;
     this.name = name;
     this.price = price;
@@ -35,12 +35,12 @@ public class Product {
     return json;
   }
 
-  public String getId() {
+  public Integer getId() {
     return id;
   }
 
   @Fluent
-  public Product setId(String id) {
+  public Product setId(Integer id) {
     this.id = id;
     return this;
   }

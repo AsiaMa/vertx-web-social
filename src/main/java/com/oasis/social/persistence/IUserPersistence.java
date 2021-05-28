@@ -9,7 +9,6 @@ import io.vertx.sqlclient.SqlResult;
 import java.util.Collection;
 
 public interface IUserPersistence {
-
   static IUserPersistence create() {
     return new UserPersistenceImpl();
   }

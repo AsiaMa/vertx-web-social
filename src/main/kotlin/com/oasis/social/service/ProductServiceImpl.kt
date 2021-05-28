@@ -1,10 +1,13 @@
 package com.oasis.social.service
 
 import com.oasis.social.models.Product
+import com.oasis.social.persistence.IProductPersistence
 import com.oasis.social.util.GlobalRouter
 import io.vertx.core.AsyncResult
+import io.vertx.core.Future
 import io.vertx.core.Handler
 import io.vertx.core.eventbus.MessageConsumer
+import io.vertx.core.json.JsonArray
 import io.vertx.core.json.JsonObject
 import io.vertx.ext.web.api.service.ServiceRequest
 import io.vertx.ext.web.api.service.ServiceResponse
@@ -14,13 +17,19 @@ import io.vertx.kotlin.coroutines.await
 import io.vertx.serviceproxy.ServiceBinder
 import org.apache.logging.log4j.LogManager
 
-class ProductServiceImpl : IProductService, CoroutineVerticle() {
+class ProductServiceImpl() : IProductService, CoroutineVerticle() {
   private val logger = LogManager.getLogger(this::class.java)
   private lateinit var consumer: MessageConsumer<JsonObject>
+  private var productPersistence: IProductPersistence? = null
+
+  constructor(productPersistence: IProductPersistence) : this() {
+    this.productPersistence = productPersistence
+  }
 
   override suspend fun start() {
     val serviceBinder = ServiceBinder(this.vertx)
-    val productService = IProductService.create()
+    val productPersistence = IProductPersistence.create()
+    val productService = IProductService.create(productPersistence)
     consumer = serviceBinder
       .setAddress(IProductService::class.java.name)
       .register(IProductService::class.java, productService)
@@ -38,7 +47,11 @@ class ProductServiceImpl : IProductService, CoroutineVerticle() {
   }
 
   override fun getProductList(request: ServiceRequest, resultHandler: Handler<AsyncResult<ServiceResponse>>) {
-    TODO("Not yet implemented")
+    productPersistence!!.findProducts().onSuccess { productCollection ->
+      resultHandler.handle(Future.succeededFuture(ServiceResponse.completedWithJson(JsonArray(productCollection.toList()))))
+    }.onFailure {
+      logger.error("getProductList => ${it.printStackTrace()}")
+    }
   }
 
   override fun getProductById(

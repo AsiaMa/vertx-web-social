@@ -1,6 +1,7 @@
 package com.oasis.social.service;
 
 import com.oasis.social.models.Product;
+import com.oasis.social.persistence.IProductPersistence;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.ext.web.api.service.ServiceRequest;
@@ -10,8 +11,8 @@ import io.vertx.ext.web.api.service.WebApiServiceGen;
 @WebApiServiceGen
 public interface IProductService {
 
-  static IProductService create() {
-    return new ProductServiceImpl();
+  static IProductService create(IProductPersistence productPersistence) {
+    return new ProductServiceImpl(productPersistence);
   }
 
   void getProductList(ServiceRequest request, Handler<AsyncResult<ServiceResponse>> resultHandler);
