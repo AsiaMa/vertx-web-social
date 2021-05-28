@@ -1,7 +1,6 @@
-package com.oasis.social.persistence.impl
+package com.oasis.social.persistence
 
 import com.oasis.social.models.User
-import com.oasis.social.persistence.IUserPersistence
 import com.oasis.social.util.getCurrentVertx
 import com.oasis.social.util.getMySqlConnections
 import io.vertx.core.Future
@@ -10,8 +9,11 @@ import io.vertx.sqlclient.Pool
 import io.vertx.sqlclient.PoolOptions
 import io.vertx.sqlclient.Row
 import io.vertx.sqlclient.templates.SqlTemplate
+import org.apache.logging.log4j.LogManager
+import java.util.*
 
 class UserPersistenceImpl : IUserPersistence {
+  private val logger = LogManager.getLogger(this::class.java)
   private val pool: Pool = Pool.pool(getCurrentVertx(), getMySqlConnections(), PoolOptions().setMaxSize(4))
 
   private val userMapper = { row: Row ->
@@ -27,10 +29,14 @@ class UserPersistenceImpl : IUserPersistence {
 
   override fun findUsers(): Future<Collection<User>> {
     return SqlTemplate.forQuery(pool, "SELECT *  FROM user")
-      .mapTo(userMapper).execute(null).map { it.toList() }
+//      .mapTo(UserRowMapper.INSTANCE)
+      .mapTo(userMapper)
+      .execute(null).map {
+        it.toList()
+      }
   }
 
-  override fun findUserById(userId: String): User? {
+  override fun findUserById(userId: String?): Optional<User> {
     TODO("Not yet implemented")
   }
 

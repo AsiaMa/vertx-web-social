@@ -7,12 +7,18 @@ import io.vertx.core.json.JsonObject;
 /**
  * DataObject注解会生成UserConverter类，里面包含fromJson()和toJson()两个方法
  */
+//@RowMapped
 @DataObject(generateConverter = true, publicConverter = false)
 public class User {
+  //  @Column(name = "user_number")
   private String id;
+  //  @Column(name = "account_name")
   private String accountName;
+  //  @Column(name = "nick_name")
   private String nickName;
+  //  @Column(name = "password")
   private String password;
+  //  @Column(name = "age")
   private Integer age;
 
   public User() {
