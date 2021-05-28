@@ -59,7 +59,16 @@ class ProductServiceImpl() : IProductService, CoroutineVerticle() {
     request: ServiceRequest,
     resultHandler: Handler<AsyncResult<ServiceResponse>>
   ) {
-    logger.info("productId: $productId")
+    logger.debug("getProductById => productId: $productId")
+    productPersistence!!.findProductById(productId).onSuccess { product ->
+      if (product == null) {
+        resultHandler.handle(Future.succeededFuture(ServiceResponse.completedWithJson(JsonObject())))
+      } else {
+        resultHandler.handle(Future.succeededFuture(ServiceResponse.completedWithJson(product.toJson())))
+      }
+    }.onFailure {
+      logger.error("createUser => create user failed, error message: ${it.message}")
+    }
   }
 
   override fun createProduct(
