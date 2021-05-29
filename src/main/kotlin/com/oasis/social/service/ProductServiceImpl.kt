@@ -37,9 +37,9 @@ class ProductServiceImpl() : IProductService, CoroutineVerticle() {
     // 解析productapi.json文件，将结果存入一个LinkedHashMap中，key是operationId，value是OperationImpl
     // OperationImpl主要有operationId,method,path,pathModel,operationModel
     val routerBinder = RouterBuilder.create(this.vertx, "productapi.json").await()
-    // 挂载服务到 event bus
+    // 挂载服务到 event bus(其实是给OperationImpl的ebServiceAddress、ebServiceMethodName字段赋值，生成路由的时候需要使用到)
     routerBinder.mountServicesFromExtensions()
-    // 生成路由
+    // 生成路由与对应handler(RouteToEBServiceHandlerImpl#handler)
     val router = routerBinder.createRouter()
     // 挂载到全局路由
     GlobalRouter.getRouter().mountSubRouter("/", router)
