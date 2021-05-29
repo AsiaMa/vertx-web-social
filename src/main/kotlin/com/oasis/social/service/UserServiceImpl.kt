@@ -36,7 +36,7 @@ class UserServiceImpl() : IUserService, CoroutineVerticle() {
       .setAddress(IUserService::class.java.name)
       .register(IUserService::class.java, userService)
 
-    val routerBuilder = RouterBuilder.create(this.vertx, "userapi.json").await()
+    val routerBuilder = RouterBuilder.create(this.vertx, "userapi.yaml").await()
     // 挂载服务到 event bus
     routerBuilder.mountServicesFromExtensions()
     // 生成路由

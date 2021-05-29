@@ -1,0 +1,102 @@
+openapi: 3.0.0
+info:
+  title: User API
+  version: 1.0.0
+paths:
+  "/api/users":
+    get:
+      operationId: getUserList
+      x-vertx-event-bus: com.oasis.social.service.IUserService
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/User"
+        '500':
+          description: Something wrong happened
+    post:
+      operationId: createUser
+      x-vertx-event-bus: com.oasis.social.service.IUserService
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/User"
+      responses:
+        '200':
+          description: Ok
+        '500':
+          description: Something wrong happened
+  "/api/users/{userId}":
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getUserById
+      x-vertx-event-bus: com.oasis.social.service.IUserService
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/User"
+        '500':
+          description: Something wrong happened
+    put:
+      operationId: updateUser
+      x-vertx-event-bus: com.oasis.social.service.IUserService
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/User"
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/User"
+        '500':
+          description: Something wrong happened
+    delete:
+      operationId: deleteUserById
+      x-vertx-event-bus: com.oasis.social.service.IUserService
+      responses:
+        '200':
+          description: Ok
+        '500':
+          description: Something wrong happened
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        accountName:
+          type: string
+        nickName:
+          type: string
+        password:
+          type: string
+        age:
+          type: number
+          format: int32
+      additionalProperties: false
+      required:
+        - id
+        - accountName
+        - nickName
+        - password
+        - age
