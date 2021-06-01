@@ -25,18 +25,20 @@ val watchForChange = "src/**/*"
 val doOnChange = "${projectDir}/gradlew classes"
 
 application {
-  mainClassName = launcherClassName
+  mainClass.set(launcherClassName)
 }
 
 dependencies {
+  // kotlin
   implementation(kotlin("stdlib-jdk8"))
   implementation("io.vertx:vertx-lang-kotlin")
-  implementation(platform("io.vertx:vertx-stack-depchain:$vertxVersion"))
   implementation("io.vertx:vertx-lang-kotlin-coroutines")
-  // jwt
-  implementation("io.vertx:vertx-auth-jwt")
+  // vertx package manage
+  implementation(platform("io.vertx:vertx-stack-depchain:$vertxVersion"))
   // web
   implementation("io.vertx:vertx-web")
+  // jwt
+  implementation("io.vertx:vertx-auth-jwt")
   // mysql
   implementation("io.vertx:vertx-mysql-client")
   // sql template
@@ -49,13 +51,9 @@ dependencies {
   implementation("io.vertx:vertx-web-api-service")
   // open api
   implementation("io.vertx:vertx-web-openapi:4.0.3")
-  // gson
-  implementation("com.google.code.gson:gson:2.8.7")
   // logging
   implementation("org.apache.logging.log4j:log4j-core:2.14.1")
   implementation("com.lmax:disruptor:3.4.4")
-//  implementation("org.apache.logging.log4j:log4j-to-slf4j:2.14.1")
-//  implementation("org.slf4j:slf4j-api:1.7.30")
   // test
   testImplementation("io.vertx:vertx-junit5")
   testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiterVersion")
