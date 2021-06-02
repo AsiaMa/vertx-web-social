@@ -11,8 +11,9 @@ class MainVerticle : CoroutineVerticle() {
   override suspend fun start() {
     // 由于使用了Vertx全局Router 所以必须按顺序部署Verticle
     vertx.deployVerticle("kt:com.oasis.social.BaseVerticle").await()
-    vertx.deployVerticle("kt:com.oasis.social.service.UserServiceImpl").await()
-    vertx.deployVerticle("kt:com.oasis.social.service.ProductServiceImpl").await()
+    vertx.deployVerticle("kt:com.oasis.social.service.TokenServiceVerticle").await()
+    vertx.deployVerticle("kt:com.oasis.social.service.UserServiceVerticle").await()
+    vertx.deployVerticle("kt:com.oasis.social.service.ProductServiceVerticle").await()
     vertx.deployVerticle("kt:com.oasis.social.WebServerVerticle").await()
     logger.info("All Verticle deployment completed!")
   }

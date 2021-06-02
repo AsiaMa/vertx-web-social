@@ -12,7 +12,7 @@ import io.vertx.ext.web.api.service.WebApiServiceGen;
 public interface IProductService {
 
   static IProductService create(IProductPersistence productPersistence) {
-    return new ProductServiceImpl(productPersistence);
+    return new ProductServiceVerticle(productPersistence);
   }
 
   void getProductList(ServiceRequest request, Handler<AsyncResult<ServiceResponse>> resultHandler);

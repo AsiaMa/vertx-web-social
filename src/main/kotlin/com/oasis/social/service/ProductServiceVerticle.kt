@@ -17,7 +17,7 @@ import io.vertx.kotlin.coroutines.await
 import io.vertx.serviceproxy.ServiceBinder
 import org.apache.logging.log4j.LogManager
 
-class ProductServiceImpl() : IProductService, CoroutineVerticle() {
+class ProductServiceVerticle() : IProductService, CoroutineVerticle() {
   private val logger = LogManager.getLogger(this::class.java)
   private lateinit var consumer: MessageConsumer<JsonObject>
   private var productPersistence: IProductPersistence? = null

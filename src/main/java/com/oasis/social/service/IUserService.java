@@ -15,7 +15,7 @@ import io.vertx.ext.web.api.service.WebApiServiceGen;
 public interface IUserService {
 
   static IUserService create(IUserPersistence userPersistence) {
-    return new UserServiceImpl(userPersistence);
+    return new UserServiceVerticle(userPersistence);
   }
 
   void getUserList(ServiceRequest request, Handler<AsyncResult<ServiceResponse>> resultHandler);
