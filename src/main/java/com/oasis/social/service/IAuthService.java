@@ -10,7 +10,7 @@ import io.vertx.ext.web.api.service.WebApiServiceGen;
 @WebApiServiceGen
 public interface IAuthService {
   static IAuthService create() {
-    return new TokenServiceVerticle();
+    return new AuthServiceVerticle();
   }
 
   void generateToken(JsonObject body, ServiceRequest request, Handler<AsyncResult<ServiceResponse>> resultHandler);
