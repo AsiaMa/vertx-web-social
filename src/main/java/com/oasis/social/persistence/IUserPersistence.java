@@ -6,14 +6,14 @@ import io.vertx.sqlclient.Row;
 import io.vertx.sqlclient.RowSet;
 import io.vertx.sqlclient.SqlResult;
 
-import java.util.Collection;
+import java.util.List;
 
 public interface IUserPersistence {
   static IUserPersistence create() {
     return new UserPersistenceImpl();
   }
 
-  Future<Collection<User>> findUsers();
+  Future<List<User>> findUsers();
 
   Future<User> findUserById(String userId);
 

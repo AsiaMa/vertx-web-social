@@ -50,8 +50,12 @@ class UserServiceVerticle() : IUserService, CoroutineVerticle() {
   }
 
   override fun getUserList(request: ServiceRequest, resultHandler: Handler<AsyncResult<ServiceResponse>>) {
-    userPersistence!!.findUsers().onSuccess { userCollection ->
-      resultHandler.handle(Future.succeededFuture(ServiceResponse.completedWithJson(JsonArray(userCollection.toList()))))
+    userPersistence!!.findUsers().onSuccess { userList ->
+      val jsonArray = JsonArray()
+      userList.forEach { user ->
+        jsonArray.add(user.toJson())
+      }
+      resultHandler.handle(Future.succeededFuture(ServiceResponse.completedWithJson(jsonArray)))
     }.onFailure {
       logger.error("getUserList => ${it.printStackTrace()}")
     }

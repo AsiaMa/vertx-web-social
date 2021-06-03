@@ -25,7 +25,7 @@ val watchForChange = "src/**/*"
 val doOnChange = "${projectDir}/gradlew classes"
 
 application {
-  mainClass.set(launcherClassName)
+  mainClassName = launcherClassName
 }
 
 dependencies {
@@ -50,7 +50,7 @@ dependencies {
   annotationProcessor("io.vertx:vertx-web-api-service:$vertxVersion")
   implementation("io.vertx:vertx-web-api-service")
   // open api
-  implementation("io.vertx:vertx-web-openapi:4.0.3")
+  implementation("io.vertx:vertx-web-openapi")
   // logging
   implementation("org.apache.logging.log4j:log4j-core:2.14.1")
   implementation("com.lmax:disruptor:3.4.4")
