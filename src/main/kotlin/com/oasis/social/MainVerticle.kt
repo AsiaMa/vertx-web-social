@@ -6,7 +6,7 @@ import org.apache.logging.log4j.LogManager
 
 
 class MainVerticle : CoroutineVerticle() {
-  private val logger = LogManager.getLogger(this::class.java)
+  private val logger = LogManager.getLogger(MainVerticle::class.java)
 
   override suspend fun start() {
     // 由于使用了Vertx全局Router 所以必须按顺序部署Verticle

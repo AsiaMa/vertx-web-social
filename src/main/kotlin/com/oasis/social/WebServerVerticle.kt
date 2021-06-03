@@ -7,7 +7,7 @@ import org.apache.logging.log4j.LogManager
 
 class WebServerVerticle : CoroutineVerticle() {
 
-  private val logger = LogManager.getLogger(this::class.java)
+  private val logger = LogManager.getLogger(WebServerVerticle::class.java)
 
   override suspend fun start() {
     // 创建httpServer

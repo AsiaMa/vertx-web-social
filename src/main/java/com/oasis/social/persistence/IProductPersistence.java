@@ -6,14 +6,14 @@ import io.vertx.sqlclient.Row;
 import io.vertx.sqlclient.RowSet;
 import io.vertx.sqlclient.SqlResult;
 
-import java.util.Collection;
+import java.util.List;
 
 public interface IProductPersistence {
   static IProductPersistence create() {
     return new ProductPersistenceImpl();
   }
 
-  Future<Collection<Product>> findProducts();
+  Future<List<Product>> findProducts();
 
   Future<Product> findProductById(String productId);
 

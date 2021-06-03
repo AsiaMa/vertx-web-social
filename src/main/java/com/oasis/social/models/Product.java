@@ -3,13 +3,21 @@ package com.oasis.social.models;
 import io.vertx.codegen.annotations.DataObject;
 import io.vertx.codegen.annotations.Fluent;
 import io.vertx.core.json.JsonObject;
+import io.vertx.sqlclient.templates.annotations.ParametersMapped;
+import io.vertx.sqlclient.templates.annotations.RowMapped;
 
+@RowMapped
+@ParametersMapped
 @DataObject(generateConverter = true, publicConverter = false)
 public class Product {
   private Integer id;
   private String name;
   private Double price;
   private Integer stock;
+
+  public Product() {
+
+  }
 
   public Product(Integer id, String name, Double price, Integer stock) {
     this.id = id;

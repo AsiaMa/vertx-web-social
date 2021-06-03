@@ -18,7 +18,7 @@ import io.vertx.serviceproxy.ServiceBinder
 import org.apache.logging.log4j.LogManager
 
 class ProductServiceVerticle() : IProductService, CoroutineVerticle() {
-  private val logger = LogManager.getLogger(this::class.java)
+  private val logger = LogManager.getLogger(ProductServiceVerticle::class.java)
   private lateinit var consumer: MessageConsumer<JsonObject>
   private var productPersistence: IProductPersistence? = null
 
@@ -50,8 +50,12 @@ class ProductServiceVerticle() : IProductService, CoroutineVerticle() {
   }
 
   override fun getProductList(request: ServiceRequest, resultHandler: Handler<AsyncResult<ServiceResponse>>) {
-    productPersistence!!.findProducts().onSuccess { productCollection ->
-      resultHandler.handle(Future.succeededFuture(ServiceResponse.completedWithJson(JsonArray(productCollection.toList()))))
+    productPersistence!!.findProducts().onSuccess { productList ->
+      val jsonArray = JsonArray()
+      productList.forEach { product ->
+        jsonArray.add(product.toJson())
+      }
+      resultHandler.handle(Future.succeededFuture(ServiceResponse.completedWithJson(jsonArray)))
     }.onFailure {
       logger.error("getProductList => ${it.printStackTrace()}")
     }

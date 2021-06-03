@@ -9,7 +9,7 @@ import org.apache.logging.log4j.LogManager
 
 class BaseVerticle : CoroutineVerticle() {
 
-  private val logger = LogManager.getLogger(this::class.java)
+  private val logger = LogManager.getLogger(BaseVerticle::class.java)
 
   private val allHeader =
     "accept, accept-encoding, authorization, content-type, dnt, origin, user-agent, x-csrftoken, x-requested-with, *"
