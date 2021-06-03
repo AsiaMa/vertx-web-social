@@ -2,18 +2,21 @@ package com.oasis.social.models;
 
 import io.vertx.codegen.annotations.DataObject;
 import io.vertx.codegen.annotations.Fluent;
-import io.vertx.codegen.format.SnakeCase;
 import io.vertx.core.json.JsonObject;
 import io.vertx.sqlclient.templates.annotations.Column;
+import io.vertx.sqlclient.templates.annotations.ParametersMapped;
 import io.vertx.sqlclient.templates.annotations.RowMapped;
+import io.vertx.sqlclient.templates.annotations.TemplateParameter;
 
 /**
  * DataObject注解会生成UserConverter类，里面包含fromJson()和toJson()两个方法
  */
-@RowMapped(formatter = SnakeCase.class)
+@RowMapped
+@ParametersMapped
 @DataObject(generateConverter = true, publicConverter = false)
 public class User {
   @Column(name = "user_number")
+  @TemplateParameter(name = "userNumber")
   private String id;
   @Column(name = "account_name")
   private String accountName;
