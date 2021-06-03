@@ -11,8 +11,8 @@ class BaseVerticle : CoroutineVerticle() {
 
   private val logger = LogManager.getLogger(this::class.java)
 
-  private val allHeader = "accept, accept-encoding, authorization, content-type, dnt, origin, user-agent, " +
-    "x-csrftoken, x-requested-with, *"
+  private val allHeader =
+    "accept, accept-encoding, authorization, content-type, dnt, origin, user-agent, x-csrftoken, x-requested-with, *"
 
   override suspend fun start() {
 
@@ -21,7 +21,7 @@ class BaseVerticle : CoroutineVerticle() {
     router.route().handler(LoggerHandler.create(LoggerFormat.SHORT))
     // 跨域请求处理handler
     router.route().handler(
-      CorsHandler.create(".*")
+      CorsHandler.create("*")
         .maxAgeSeconds(3600)
         .allowCredentials(true)
         .allowedHeader(allHeader)
@@ -30,9 +30,10 @@ class BaseVerticle : CoroutineVerticle() {
     // 请求Body处理handler
     router.route().handler(BodyHandler.create().setBodyLimit(100 * 1048576L)) //1MB = 1048576L
     // 全局错误处理 不用把错误信息暴露给用户端
-    router.errorHandler(500) {
+    router.route().failureHandler {
+      it.failure().printStackTrace()
       logger.error("An exception occurred on the server", it.failure())
-      it.end("An exception occurred on the server")
+      it.end(it.failure().message)
     }
 
     //对/api开头的所有接口进行用户认证

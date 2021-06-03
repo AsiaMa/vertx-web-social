@@ -6,7 +6,9 @@ import com.oasis.social.models.UserRowMapper
 import com.oasis.social.util.getCurrentVertx
 import com.oasis.social.util.getMySqlConnections
 import io.vertx.core.Future
-import io.vertx.sqlclient.*
+import io.vertx.sqlclient.Pool
+import io.vertx.sqlclient.PoolOptions
+import io.vertx.sqlclient.SqlResult
 import io.vertx.sqlclient.templates.SqlTemplate
 import java.util.*
 
@@ -35,17 +37,28 @@ class UserPersistenceImpl : IUserPersistence {
       .map { it.toList().first() }
   }
 
-  override fun addUser(user: User): Future<RowSet<Row>> {
-    return SqlTemplate.forQuery(
+  override fun addUser(user: User): Future<Void> {
+    return SqlTemplate.forUpdate(
       pool,
       "INSERT INTO user VALUES(null, #{userNumber}, #{accountName}, #{nickName}, #{password}, #{age})"
     )
       .mapFrom(UserParametersMapper.INSTANCE)
       .execute(user)
+      .flatMap {
+        Future.succeededFuture()
+      }
   }
 
-  override fun updateUser(user: User) {
-    TODO("Not yet implemented")
+  override fun updateUser(id: String, user: User): Future<Void> {
+    user.id = id
+    return SqlTemplate.forUpdate(
+      pool,
+      "UPDATE user SET account_name=#{accountName}, nick_name=#{nickName}, password=#{password}, age=#{age} where user_number=#{userNumber}"
+    )
+      .mapFrom(UserParametersMapper.INSTANCE)
+      .execute(user).flatMap {
+        Future.succeededFuture()
+      }
   }
 
   override fun deleteUserById(userId: String): Future<SqlResult<Void>> {

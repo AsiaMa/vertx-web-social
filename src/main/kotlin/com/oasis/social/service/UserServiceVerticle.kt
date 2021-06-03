@@ -18,7 +18,7 @@ import io.vertx.serviceproxy.ServiceBinder
 import org.apache.logging.log4j.LogManager
 
 class UserServiceVerticle() : IUserService, CoroutineVerticle() {
-  private val logger = LogManager.getLogger(this::class.java)
+  private val logger = LogManager.getLogger(UserServiceVerticle::class.java)
   private lateinit var consumer: MessageConsumer<JsonObject>
 
   private var userPersistence: IUserPersistence? = null
@@ -98,11 +98,23 @@ class UserServiceVerticle() : IUserService, CoroutineVerticle() {
   }
 
   override fun updateUser(
+    userId: String,
     body: User,
     request: ServiceRequest,
     resultHandler: Handler<AsyncResult<ServiceResponse>>
   ) {
-    logger.info("user: $body")
+    logger.debug("updateUser => userId:$userId, body:$body")
+    userPersistence!!.updateUser(userId, body).onSuccess {
+      resultHandler.handle(
+        Future.succeededFuture(
+          ServiceResponse.completedWithJson(
+            JsonObject().put("code", 200).put("msg", "success")
+          )
+        )
+      )
+    }.onFailure {
+      logger.error("createUser => create user failed, error message: ${it.message}")
+    }
   }
 
   override fun deleteUserById(
