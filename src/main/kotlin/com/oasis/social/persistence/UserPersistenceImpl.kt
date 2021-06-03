@@ -33,7 +33,7 @@ class UserPersistenceImpl : IUserPersistence {
     )
       .mapTo(UserRowMapper.INSTANCE)
       .execute(parameters)
-      .map { it.toList().first() }
+      .map { it.toList().firstOrNull() }
   }
 
   override fun addUser(user: User): Future<Void> {
