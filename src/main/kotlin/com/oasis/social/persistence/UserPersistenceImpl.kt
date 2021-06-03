@@ -8,7 +8,6 @@ import com.oasis.social.util.getMySqlConnections
 import io.vertx.core.Future
 import io.vertx.sqlclient.Pool
 import io.vertx.sqlclient.PoolOptions
-import io.vertx.sqlclient.SqlResult
 import io.vertx.sqlclient.templates.SqlTemplate
 import java.util.*
 
@@ -61,9 +60,13 @@ class UserPersistenceImpl : IUserPersistence {
       }
   }
 
-  override fun deleteUserById(userId: String): Future<SqlResult<Void>> {
+  override fun deleteUserById(userId: String): Future<Void> {
     val parameters: Map<String, Any> = Collections.singletonMap("user_number", userId)
-    return SqlTemplate.forUpdate(pool, "DELETE FROM user WHERE user_number=#{user_number}")
+    return SqlTemplate.forUpdate(
+      pool,
+      "DELETE FROM user WHERE user_number=#{user_number}"
+    )
       .execute(parameters)
+      .flatMap { Future.succeededFuture() }
   }
 }

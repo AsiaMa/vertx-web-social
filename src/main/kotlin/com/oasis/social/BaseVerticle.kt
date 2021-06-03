@@ -29,7 +29,7 @@ class BaseVerticle : CoroutineVerticle() {
     )
     // 请求Body处理handler
     router.route().handler(BodyHandler.create().setBodyLimit(100 * 1048576L)) //1MB = 1048576L
-    // 全局错误处理 不用把错误信息暴露给用户端
+    // 全局错误处理
     router.route().failureHandler {
       it.failure().printStackTrace()
       logger.error("An exception occurred on the server", it.failure())

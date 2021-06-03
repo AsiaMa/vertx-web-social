@@ -2,7 +2,6 @@ package com.oasis.social.persistence;
 
 import com.oasis.social.models.User;
 import io.vertx.core.Future;
-import io.vertx.sqlclient.SqlResult;
 
 import java.util.List;
 
@@ -19,5 +18,5 @@ public interface IUserPersistence {
 
   Future<Void> updateUser(String userId, User user);
 
-  Future<SqlResult<Void>> deleteUserById(String userId);
+  Future<Void> deleteUserById(String userId);
 }
