@@ -122,6 +122,17 @@ class ProductServiceVerticle() : IProductService, CoroutineVerticle() {
     request: ServiceRequest,
     resultHandler: Handler<AsyncResult<ServiceResponse>>
   ) {
-    logger.info("deleteProductById()=>productId:$productId")
+    logger.info("deleteProductById() => productId: $productId")
+    productPersistence!!.deleteProductById(productId).onSuccess {
+      resultHandler.handle(
+        Future.succeededFuture(
+          ServiceResponse.completedWithJson(
+            JsonObject().put("code", 200).put("msg", "success")
+          )
+        )
+      )
+    }.onFailure {
+      logger.error("updateProduct => create user failed, error message: ${it.message}")
+    }
   }
 }

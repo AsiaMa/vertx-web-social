@@ -8,7 +8,6 @@ import com.oasis.social.util.getMySqlConnections
 import io.vertx.core.Future
 import io.vertx.sqlclient.Pool
 import io.vertx.sqlclient.PoolOptions
-import io.vertx.sqlclient.SqlResult
 import io.vertx.sqlclient.templates.SqlTemplate
 import java.util.*
 
@@ -55,13 +54,14 @@ class ProductPersistenceImpl : IProductPersistence {
       .flatMap { Future.succeededFuture() }
   }
 
-  override fun deleteProductById(productId: String): Future<SqlResult<Void>> {
+  override fun deleteProductById(productId: Int): Future<Void> {
     val parameters: Map<String, Any> = Collections.singletonMap("id", productId)
     return SqlTemplate.forUpdate(
       pool,
       "DELETE FROM product WHERE id=#{id}"
-    )
-      .execute(parameters)
+    ).execute(parameters).flatMap {
+      Future.succeededFuture()
+    }
   }
 
 }
