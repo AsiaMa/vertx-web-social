@@ -6,7 +6,7 @@ import io.vertx.ext.auth.jwt.authorization.JWTAuthorization
 import io.vertx.ext.web.handler.AuthorizationHandler
 import io.vertx.kotlin.coroutines.CoroutineVerticle
 
-class RoleVerticle : CoroutineVerticle() {
+class AuthRoleVerticle : CoroutineVerticle() {
   override suspend fun start() {
     val router = GlobalRouter.getRouter()
 

@@ -17,8 +17,8 @@ import io.vertx.kotlin.coroutines.await
 import io.vertx.serviceproxy.ServiceBinder
 import org.apache.logging.log4j.LogManager
 
-class AuthServiceVerticle : IAuthService, CoroutineVerticle() {
-  private val logger = LogManager.getLogger(AuthServiceVerticle::class.java)
+class LoginServiceVerticle : IAuthService, CoroutineVerticle() {
+  private val logger = LogManager.getLogger(LoginServiceVerticle::class.java)
   private lateinit var consumer: MessageConsumer<JsonObject>
 
   override suspend fun start() {
