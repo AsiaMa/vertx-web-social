@@ -74,7 +74,7 @@ class UserServiceVerticle() : IUserService, CoroutineVerticle() {
         resultHandler.handle(Future.succeededFuture(ServiceResponse.completedWithJson(user.toJson())))
       }
     }.onFailure {
-      logger.error("createUser => create user failed, error message: ${it.message}")
+      logger.error("getUserById => create user failed, error message: ${it.message}")
     }
   }
 
@@ -103,7 +103,7 @@ class UserServiceVerticle() : IUserService, CoroutineVerticle() {
     request: ServiceRequest,
     resultHandler: Handler<AsyncResult<ServiceResponse>>
   ) {
-    logger.debug("updateUser => userId:$userId, body:$body")
+    logger.debug("updateUser => userId: $userId, body: $body")
     userPersistence!!.updateUser(userId, body).onSuccess {
       resultHandler.handle(
         Future.succeededFuture(
@@ -113,7 +113,7 @@ class UserServiceVerticle() : IUserService, CoroutineVerticle() {
         )
       )
     }.onFailure {
-      logger.error("createUser => create user failed, error message: ${it.message}")
+      logger.error("updateUser => create user failed, error message: ${it.message}")
     }
   }
 
@@ -132,7 +132,7 @@ class UserServiceVerticle() : IUserService, CoroutineVerticle() {
         )
       )
     }.onFailure {
-      logger.error("createUser => create user failed, error message: ${it.message}")
+      logger.error("deleteUserById => create user failed, error message: ${it.message}")
     }
   }
 }

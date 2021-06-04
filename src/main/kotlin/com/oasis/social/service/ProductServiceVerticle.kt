@@ -62,7 +62,7 @@ class ProductServiceVerticle() : IProductService, CoroutineVerticle() {
   }
 
   override fun getProductById(
-    productId: String,
+    productId: Int,
     request: ServiceRequest,
     resultHandler: Handler<AsyncResult<ServiceResponse>>
   ) {
@@ -74,7 +74,7 @@ class ProductServiceVerticle() : IProductService, CoroutineVerticle() {
         resultHandler.handle(Future.succeededFuture(ServiceResponse.completedWithJson(product.toJson())))
       }
     }.onFailure {
-      logger.error("createUser => create user failed, error message: ${it.message}")
+      logger.error("getProductById => create user failed, error message: ${it.message}")
     }
   }
 
@@ -83,19 +83,42 @@ class ProductServiceVerticle() : IProductService, CoroutineVerticle() {
     request: ServiceRequest,
     resultHandler: Handler<AsyncResult<ServiceResponse>>
   ) {
-    logger.info("product: $body")
+    logger.info("createProduct => body: $body")
+    productPersistence!!.addProduct(body).onSuccess {
+      resultHandler.handle(
+        Future.succeededFuture(
+          ServiceResponse.completedWithJson(
+            JsonObject().put("code", 200).put("msg", "success")
+          )
+        )
+      )
+    }.onFailure {
+      logger.error("createProduct => create user failed, error message: ${it.message}")
+    }
   }
 
   override fun updateProduct(
+    productId: Int,
     body: Product,
     request: ServiceRequest,
     resultHandler: Handler<AsyncResult<ServiceResponse>>
   ) {
-    logger.info("updateProduct()=>product:$body")
+    logger.info("updateProduct() => product: $body")
+    productPersistence!!.updateProduct(productId, body).onSuccess {
+      resultHandler.handle(
+        Future.succeededFuture(
+          ServiceResponse.completedWithJson(
+            JsonObject().put("code", 200).put("msg", "success")
+          )
+        )
+      )
+    }.onFailure {
+      logger.error("updateProduct => create user failed, error message: ${it.message}")
+    }
   }
 
   override fun deleteProductById(
-    productId: String,
+    productId: Int,
     request: ServiceRequest,
     resultHandler: Handler<AsyncResult<ServiceResponse>>
   ) {

@@ -2,8 +2,6 @@ package com.oasis.social.persistence;
 
 import com.oasis.social.models.Product;
 import io.vertx.core.Future;
-import io.vertx.sqlclient.Row;
-import io.vertx.sqlclient.RowSet;
 import io.vertx.sqlclient.SqlResult;
 
 import java.util.List;
@@ -15,11 +13,11 @@ public interface IProductPersistence {
 
   Future<List<Product>> findProducts();
 
-  Future<Product> findProductById(String productId);
+  Future<Product> findProductById(Integer productId);
 
-  Future<RowSet<Row>> addProduct(Product product);
+  Future<Void> addProduct(Product product);
 
-  void updateProduct();
+  Future<Void> updateProduct(Integer id, Product product);
 
   Future<SqlResult<Void>> deleteProductById(String productId);
 }

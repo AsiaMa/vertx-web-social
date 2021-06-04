@@ -17,11 +17,11 @@ public interface IProductService {
 
   void getProductList(ServiceRequest request, Handler<AsyncResult<ServiceResponse>> resultHandler);
 
-  void getProductById(String productId, ServiceRequest request, Handler<AsyncResult<ServiceResponse>> resultHandler);
+  void getProductById(Integer productId, ServiceRequest request, Handler<AsyncResult<ServiceResponse>> resultHandler);
 
   void createProduct(Product body, ServiceRequest request, Handler<AsyncResult<ServiceResponse>> resultHandler);
 
-  void updateProduct(Product body, ServiceRequest request, Handler<AsyncResult<ServiceResponse>> resultHandler);
+  void updateProduct(Integer productId, Product body, ServiceRequest request, Handler<AsyncResult<ServiceResponse>> resultHandler);
 
-  void deleteProductById(String productId, ServiceRequest request, Handler<AsyncResult<ServiceResponse>> resultHandler);
+  void deleteProductById(Integer productId, ServiceRequest request, Handler<AsyncResult<ServiceResponse>> resultHandler);
 }

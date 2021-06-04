@@ -58,7 +58,7 @@
           "in": "path",
           "required": true,
           "schema": {
-            "type": "string"
+            "type": "integer"
           }
         }
       ],
@@ -130,7 +130,7 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string"
+            "type": "integer"
           },
           "name": {
             "type": "string"
@@ -140,8 +140,7 @@
             "format": "double"
           },
           "stock": {
-            "type": "number",
-            "format": "int32"
+            "type": "integer"
           }
         },
         "additionalProperties": false,

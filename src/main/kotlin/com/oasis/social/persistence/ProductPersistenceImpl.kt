@@ -6,7 +6,9 @@ import com.oasis.social.models.ProductRowMapper
 import com.oasis.social.util.getCurrentVertx
 import com.oasis.social.util.getMySqlConnections
 import io.vertx.core.Future
-import io.vertx.sqlclient.*
+import io.vertx.sqlclient.Pool
+import io.vertx.sqlclient.PoolOptions
+import io.vertx.sqlclient.SqlResult
 import io.vertx.sqlclient.templates.SqlTemplate
 import java.util.*
 
@@ -14,7 +16,7 @@ class ProductPersistenceImpl : IProductPersistence {
   private val pool: Pool = Pool.pool(getCurrentVertx(), getMySqlConnections(), PoolOptions().setMaxSize(4))
 
   override fun findProducts(): Future<List<Product>> {
-    return SqlTemplate.forUpdate(
+    return SqlTemplate.forQuery(
       pool,
       "SELECT id, name, price, stock FROM product"
     )
@@ -23,7 +25,7 @@ class ProductPersistenceImpl : IProductPersistence {
       .map { it.toList() }
   }
 
-  override fun findProductById(productId: String): Future<Product> {
+  override fun findProductById(productId: Int): Future<Product?> {
     val parameters: Map<String, Any> = Collections.singletonMap("id", productId)
     return SqlTemplate.forQuery(
       pool,
@@ -34,17 +36,23 @@ class ProductPersistenceImpl : IProductPersistence {
       .map { it.toList().firstOrNull() }
   }
 
-  override fun addProduct(product: Product): Future<RowSet<Row>> {
-    return SqlTemplate.forQuery(
+  override fun addProduct(product: Product): Future<Void> {
+    return SqlTemplate.forUpdate(
       pool,
       "INSERT INTO product VALUES(#{id}, #{name}, #{price}, #{stock})"
     )
       .mapFrom(ProductParametersMapper.INSTANCE)
       .execute(product)
+      .flatMap { Future.succeededFuture() }
   }
 
-  override fun updateProduct() {
-    TODO("Not yet implemented")
+  override fun updateProduct(productId: Int, product: Product): Future<Void> {
+    return SqlTemplate.forUpdate(
+      pool,
+      "UPDATE product SET name=#{name}, price=#{price}, stock=#{stock} WHERE id=#{id}"
+    ).mapFrom(ProductParametersMapper.INSTANCE)
+      .execute(product)
+      .flatMap { Future.succeededFuture() }
   }
 
   override fun deleteProductById(productId: String): Future<SqlResult<Void>> {
