@@ -6,7 +6,7 @@ paths:
   "/auth/newToken":
     post:
       operationId: generateToken
-      x-vertx-event-bus: com.oasis.social.service.IAuthService
+      x-vertx-event-bus: com.oasis.social.service.ILoginService
       requestBody:
         required: true
         content:

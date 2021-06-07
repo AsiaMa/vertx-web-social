@@ -8,8 +8,8 @@ import io.vertx.ext.web.api.service.ServiceResponse;
 import io.vertx.ext.web.api.service.WebApiServiceGen;
 
 @WebApiServiceGen
-public interface IAuthService {
-  static IAuthService create() {
+public interface ILoginService {
+  static ILoginService create() {
     return new LoginServiceVerticle();
   }
 

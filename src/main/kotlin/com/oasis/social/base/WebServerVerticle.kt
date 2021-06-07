@@ -1,4 +1,4 @@
-package com.oasis.social
+package com.oasis.social.base
 
 import com.oasis.social.util.GlobalRouter
 import io.vertx.kotlin.coroutines.CoroutineVerticle

@@ -1,9 +1,11 @@
-package com.oasis.social
+package com.oasis.social.base
 
 import com.oasis.social.util.GlobalRouter
-import com.oasis.social.util.JWTUtils
 import io.vertx.core.http.HttpMethod
-import io.vertx.ext.web.handler.*
+import io.vertx.ext.web.handler.BodyHandler
+import io.vertx.ext.web.handler.CorsHandler
+import io.vertx.ext.web.handler.LoggerFormat
+import io.vertx.ext.web.handler.LoggerHandler
 import io.vertx.kotlin.coroutines.CoroutineVerticle
 import org.apache.logging.log4j.LogManager
 
@@ -35,10 +37,6 @@ class BaseVerticle : CoroutineVerticle() {
       logger.error("An exception occurred on the server", it.failure())
       it.end(it.failure().message)
     }
-
-    //对/api开头的所有接口进行用户认证
-    router.route("/api/*")
-      .handler(JWTAuthHandler.create(JWTUtils.getJWTAuth()))
 
     logger.info("BaseVerticle deployment completed!")
   }

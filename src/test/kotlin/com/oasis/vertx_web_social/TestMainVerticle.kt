@@ -1,6 +1,6 @@
 package com.oasis.vertx_web_social
 
-import com.oasis.social.MainVerticle
+import com.oasis.social.ApplicationVerticle
 import io.vertx.core.Vertx
 import io.vertx.junit5.VertxExtension
 import io.vertx.junit5.VertxTestContext
@@ -13,7 +13,7 @@ class TestMainVerticle {
 
   @BeforeEach
   fun deploy_verticle(vertx: Vertx, testContext: VertxTestContext) {
-    vertx.deployVerticle(MainVerticle(), testContext.succeeding<String> { _ -> testContext.completeNow() })
+    vertx.deployVerticle(ApplicationVerticle(), testContext.succeeding<String> { _ -> testContext.completeNow() })
   }
 
   @Test

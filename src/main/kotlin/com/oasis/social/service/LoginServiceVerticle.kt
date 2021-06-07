@@ -17,16 +17,16 @@ import io.vertx.kotlin.coroutines.await
 import io.vertx.serviceproxy.ServiceBinder
 import org.apache.logging.log4j.LogManager
 
-class LoginServiceVerticle : IAuthService, CoroutineVerticle() {
+class LoginServiceVerticle : ILoginService, CoroutineVerticle() {
   private val logger = LogManager.getLogger(LoginServiceVerticle::class.java)
   private lateinit var consumer: MessageConsumer<JsonObject>
 
   override suspend fun start() {
     val serviceBinder = ServiceBinder(this.vertx)
-    val authService = IAuthService.create()
+    val authService = ILoginService.create()
     // 订阅消息 eventBus.consumer(address, handler)
-    consumer = serviceBinder.setAddress(IAuthService::class.java.name)
-      .register(IAuthService::class.java, authService)
+    consumer = serviceBinder.setAddress(ILoginService::class.java.name)
+      .register(ILoginService::class.java, authService)
     // 解析openapi文件
     val routerBinder = RouterBuilder.create(this.vertx, "authapi.yaml").await()
     // 挂载服务到event bus
