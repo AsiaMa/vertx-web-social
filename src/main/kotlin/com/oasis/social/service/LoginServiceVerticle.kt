@@ -28,7 +28,7 @@ class LoginServiceVerticle : ILoginService, CoroutineVerticle() {
     consumer = serviceBinder.setAddress(ILoginService::class.java.name)
       .register(ILoginService::class.java, authService)
     // 解析openapi文件
-    val routerBinder = RouterBuilder.create(this.vertx, "authapi.yaml").await()
+    val routerBinder = RouterBuilder.create(this.vertx, "api/authapi.yaml").await()
     // 挂载服务到event bus
     routerBinder.mountServicesFromExtensions()
     // 生成路由对应的handler
