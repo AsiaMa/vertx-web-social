@@ -1,6 +1,10 @@
 package com.oasis.social.base
 
 import com.oasis.social.util.GlobalRouter
+import io.vertx.config.ConfigRetriever
+import io.vertx.config.ConfigRetrieverOptions
+import io.vertx.core.json.JsonObject
+import io.vertx.kotlin.config.configStoreOptionsOf
 import io.vertx.kotlin.coroutines.CoroutineVerticle
 import io.vertx.kotlin.coroutines.await
 import org.apache.logging.log4j.LogManager
@@ -12,7 +16,12 @@ class WebServerVerticle : CoroutineVerticle() {
   override suspend fun start() {
     // 创建httpServer
     // 使用全局Router Router里的所有handler都会在当前线程执行
-    val port = 8888
+    val store =
+      configStoreOptionsOf(type = "file", format = "hocon", config = JsonObject().put("path", "application.conf"))
+    val configRetriever = ConfigRetriever.create(vertx, ConfigRetrieverOptions().addStore(store))
+    val config = configRetriever.config.await()
+
+    val port = config.getJsonObject("http").getInteger("port")
     vertx
       .createHttpServer()
       .requestHandler(GlobalRouter.getRouter())

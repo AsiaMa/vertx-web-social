@@ -15,7 +15,7 @@ repositories {
   mavenCentral()
 }
 
-val vertxVersion = "4.0.3"
+val vertxVersion = "4.1.0"
 val junitJupiterVersion = "5.7.0"
 
 val mainVerticleName = "com.oasis.vertx_web_social.MainVerticle"
@@ -51,6 +51,9 @@ dependencies {
   implementation("io.vertx:vertx-web-api-service")
   // open api
   implementation("io.vertx:vertx-web-openapi")
+  // config
+  implementation("io.vertx:vertx-config:4.1.0")
+  implementation("io.vertx:vertx-config-hocon:4.1.0")
   // logging
   implementation("org.apache.logging.log4j:log4j-core:2.14.1")
   implementation("com.lmax:disruptor:3.4.4")

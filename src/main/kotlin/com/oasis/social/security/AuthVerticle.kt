@@ -1,5 +1,6 @@
 package com.oasis.social.security
 
+import com.oasis.social.enum.RoleEnum
 import com.oasis.social.util.GlobalRouter
 import com.oasis.social.util.JWTUtils
 import io.vertx.ext.auth.authorization.PermissionBasedAuthorization
@@ -15,8 +16,8 @@ class AuthVerticle : CoroutineVerticle() {
     router.route("/api/*")
       .handler(JWTAuthHandler.create(JWTUtils.getJWTAuth()))
 
-    val requireAdminHandler = AuthorizationHandler.create(PermissionBasedAuthorization.create("admin"))
-      .addAuthorizationProvider(JWTAuthorization.create("permissions"))
+    val requireAdminHandler = AuthorizationHandler.create(PermissionBasedAuthorization.create(RoleEnum.ADMIN.name))
+      .addAuthorizationProvider(JWTAuthorization.create(JWTUtils.PERMISSIONS))
 
     //需要admin权限
     router.route("/api/users").handler(requireAdminHandler)

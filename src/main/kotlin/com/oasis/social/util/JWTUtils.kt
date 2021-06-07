@@ -5,6 +5,7 @@ import io.vertx.ext.auth.jwt.JWTAuth
 import io.vertx.ext.auth.jwt.JWTAuthOptions
 
 object JWTUtils {
+  const val PERMISSIONS = "permissions"
 
   fun getJWTAuth(): JWTAuth {
     return JWTAuth.create(
