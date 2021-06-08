@@ -4,7 +4,7 @@ import io.vertx.ext.auth.PubSecKeyOptions
 import io.vertx.ext.auth.jwt.JWTAuth
 import io.vertx.ext.auth.jwt.JWTAuthOptions
 
-object JWTUtils {
+object JWTUtil {
   const val PERMISSIONS = "permissions"
 
   fun getJWTAuth(): JWTAuth {

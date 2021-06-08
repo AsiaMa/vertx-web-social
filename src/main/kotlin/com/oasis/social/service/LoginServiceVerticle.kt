@@ -1,7 +1,7 @@
 package com.oasis.social.service
 
 import com.oasis.social.util.GlobalRouter
-import com.oasis.social.util.JWTUtils
+import com.oasis.social.util.JWTUtil
 import io.netty.util.internal.StringUtil
 import io.vertx.core.AsyncResult
 import io.vertx.core.Future
@@ -57,7 +57,7 @@ class LoginServiceVerticle : ILoginService, CoroutineVerticle() {
     resultHandler.handle(
       Future.succeededFuture(
         ServiceResponse.completedWithJson(
-          JsonObject().put("token", JWTUtils.getJWTAuth().generateToken(payload, jwtOptions))
+          JsonObject().put("token", JWTUtil.getJWTAuth().generateToken(payload, jwtOptions))
         )
       )
     )
