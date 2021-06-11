@@ -1,6 +1,6 @@
 package com.oasis.social.persistence
 
-import com.oasis.social.driver.impl.MySqlHelper
+import com.oasis.social.driver.DbSettings
 import com.oasis.social.models.User
 import com.oasis.social.models.UserParametersMapper
 import com.oasis.social.models.UserRowMapper
@@ -12,7 +12,7 @@ import io.vertx.sqlclient.templates.SqlTemplate
 import java.util.*
 
 class UserPersistenceImpl : IUserPersistence {
-  private val pool: Pool = Pool.pool(getCurrentVertx(), MySqlHelper.getConnection(), PoolOptions().setMaxSize(4))
+  private val pool: Pool = Pool.pool(getCurrentVertx(), DbSettings.mySQLConnectOptions, PoolOptions().setMaxSize(4))
 
   override fun findUsers(): Future<List<User>> {
     return SqlTemplate.forQuery(

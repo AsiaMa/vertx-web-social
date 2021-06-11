@@ -1,6 +1,6 @@
 package com.oasis.social.persistence
 
-import com.oasis.social.driver.impl.MySqlHelper
+import com.oasis.social.driver.DbSettings
 import com.oasis.social.models.Product
 import com.oasis.social.models.ProductParametersMapper
 import com.oasis.social.models.ProductRowMapper
@@ -12,7 +12,7 @@ import io.vertx.sqlclient.templates.SqlTemplate
 import java.util.*
 
 class ProductPersistenceImpl : IProductPersistence {
-  private val pool: Pool = Pool.pool(getCurrentVertx(), MySqlHelper.getConnection(), PoolOptions().setMaxSize(4))
+  private val pool: Pool = Pool.pool(getCurrentVertx(), DbSettings.mySQLConnectOptions, PoolOptions().setMaxSize(4))
 
   override fun findProducts(): Future<List<Product>> {
     return SqlTemplate.forQuery(

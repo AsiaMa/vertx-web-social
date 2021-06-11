@@ -1,13 +1,11 @@
-package com.oasis.social.driver.impl
+package com.oasis.social.driver
 
 import com.oasis.social.config.appConfig
-import com.oasis.social.driver.SqlHelper
 import io.vertx.mysqlclient.MySQLConnectOptions
-import io.vertx.sqlclient.SqlConnectOptions
 
-object MySqlHelper : SqlHelper {
-  override fun getConnection(): SqlConnectOptions {
-    return MySQLConnectOptions()
+object DbSettings {
+  val mySQLConnectOptions: MySQLConnectOptions by lazy {
+    MySQLConnectOptions()
       .setPort(appConfig.getJsonObject("db").getInteger("port"))
       .setHost(appConfig.getJsonObject("db").getString("host"))
       .setDatabase(appConfig.getJsonObject("db").getString("database_name"))
