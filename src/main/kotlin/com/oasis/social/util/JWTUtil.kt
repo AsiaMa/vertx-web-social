@@ -1,9 +1,10 @@
 package com.oasis.social.util
 
 import com.oasis.social.config.appConfig
-import io.vertx.ext.auth.PubSecKeyOptions
+import io.vertx.core.buffer.Buffer
 import io.vertx.ext.auth.jwt.JWTAuth
-import io.vertx.ext.auth.jwt.JWTAuthOptions
+import io.vertx.kotlin.ext.auth.jwt.jwtAuthOptionsOf
+import io.vertx.kotlin.ext.auth.pubSecKeyOptionsOf
 
 object JWTUtil {
   const val PERMISSIONS = "permissions"
@@ -11,10 +12,13 @@ object JWTUtil {
   fun getJWTAuth(): JWTAuth {
     return JWTAuth.create(
       getCurrentVertx(),
-      JWTAuthOptions().addPubSecKey(
-        PubSecKeyOptions().setAlgorithm(
-          appConfig.getJsonObject("jwt").getString("algorithm")
-        ).setBuffer(appConfig.getJsonObject("jwt").getString("secret"))
+      jwtAuthOptionsOf(
+        pubSecKeys = listOf(
+          pubSecKeyOptionsOf(
+            algorithm = appConfig.getJsonObject("jwt").getString("algorithm"),
+            buffer = Buffer.buffer(appConfig.getJsonObject("jwt").getString("secret"))
+          )
+        )
       )
     )
   }

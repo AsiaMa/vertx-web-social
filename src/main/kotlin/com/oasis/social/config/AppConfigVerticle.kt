@@ -1,6 +1,5 @@
 package com.oasis.social.config
 
-import com.oasis.social.util.getCurrentVertx
 import io.vertx.config.ConfigRetriever
 import io.vertx.config.ConfigRetrieverOptions
 import io.vertx.core.json.JsonObject
@@ -14,7 +13,7 @@ class AppConfigVerticle : CoroutineVerticle() {
   override suspend fun start() {
     val store =
       configStoreOptionsOf(type = "file", format = "hocon", config = JsonObject().put("path", "application.conf"))
-    val configRetriever = ConfigRetriever.create(getCurrentVertx(), ConfigRetrieverOptions().addStore(store))
+    val configRetriever = ConfigRetriever.create(this.vertx, ConfigRetrieverOptions().addStore(store))
     appConfig = configRetriever.config.await()
   }
 }
